@@ -1,5 +1,6 @@
 package com.sms.StudentManagmentSystem.student;
 
+import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -39,16 +40,16 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentResponse> updateStudent(@RequestBody StudentCreateRequest studentCreateRequest,
+    public ResponseEntity<StudentResponse> updateStudent(@Valid @RequestBody StudentUpdateRequest studentUpdateRequest,
                                                 @PathVariable Long id){
 
-        StudentResponse updateStudent= studentService.updateStudent(studentCreateRequest,id);
+        StudentResponse updateStudent= studentService.updateStudent(studentUpdateRequest,id);
 
         return new ResponseEntity<>(updateStudent, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<StudentStatus> updateStudentStatus(@RequestBody StudentStatusRequest studentStatusRequest,
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<StudentStatus> updateStudentStatus(@Valid @RequestBody StudentStatusRequest studentStatusRequest,
                                                          @PathVariable Long id){
 
         StudentStatus updateStudentStatus= studentService.updateStudentStatus(studentStatusRequest,id);
@@ -56,9 +57,9 @@ public class StudentController {
         return new ResponseEntity<>(updateStudentStatus, HttpStatus.OK);
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteStudent(@PathVariable Long id){
+    public ResponseEntity<ApiMessageResponse> deleteStudent(@PathVariable Long id){
 
-        String status= studentService.deleteStudent(id);
+        ApiMessageResponse status= studentService.deactivateStudent(id);
 
         return new ResponseEntity<>(status, HttpStatus.OK);
     }

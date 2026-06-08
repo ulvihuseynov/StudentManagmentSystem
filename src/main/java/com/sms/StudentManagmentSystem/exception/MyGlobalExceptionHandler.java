@@ -19,12 +19,13 @@ public class MyGlobalExceptionHandler {
 
         Map<String,String> errorResponse=new HashMap<>();
 
-        ex.getBindingResult().getFieldErrors().forEach(
-                error->{
-                    errorResponse.put("Field",error.getField());
-                    errorResponse.put("Message",error.getDefaultMessage());
-                }
-        );
+       ex.getBindingResult().getFieldErrors().forEach(
+               error->{
+                   errorResponse.put(
+                           error.getField(),error.getDefaultMessage()
+                   );
+               }
+       );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -37,7 +38,18 @@ public class MyGlobalExceptionHandler {
                 ex.getMessage()
         );
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DuplicateResourceException.class)
+    public ResponseEntity<ApiErrorResponse> handleDuplicateResourceException(DuplicateResourceException ex){
+
+        ApiErrorResponse errorResponse=new ApiErrorResponse(
+                HttpStatus.CONFLICT.value(),
+                ex.getMessage()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -57,6 +69,6 @@ public class MyGlobalExceptionHandler {
                 ex.getMessage()
         );
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 }

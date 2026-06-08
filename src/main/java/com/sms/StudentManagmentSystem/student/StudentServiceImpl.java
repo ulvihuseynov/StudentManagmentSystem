@@ -1,5 +1,7 @@
 package com.sms.StudentManagmentSystem.student;
 
+import com.sms.StudentManagmentSystem.exception.DuplicateResourceException;
+import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +17,10 @@ public class StudentServiceImpl implements StudentService{
     public StudentResponse createStudent(StudentCreateRequest studentCreateRequest) {
 
         Student student = studentMapper.toEntity(studentCreateRequest);
-        Student studentDb=studentRepository.findByEmail(student.getEmail());
-        if (studentDb !=null){
 
-            throw new StudentNotFoundException("Student is already exist " + studentDb.getEmail());
+        if (studentRepository.existsByEmail(student.getEmail())){
+
+            throw new DuplicateResourceException("Student is already exist with email" + student.getEmail());
 
         }
         Student newStudent=new Student();
@@ -37,9 +39,7 @@ public class StudentServiceImpl implements StudentService{
     public List<StudentResponse> getAllStudent() {
 
         List<Student> studentList = studentRepository.findAll();
-        if (studentList.isEmpty()){
-            throw new StudentNotFoundException("The student has not been added yet.");
-        }
+
         return studentList.stream().map(
                 studentMapper::toResponse
         ).toList();
@@ -52,24 +52,20 @@ public class StudentServiceImpl implements StudentService{
         return studentMapper.toResponse(student);
     }
 
-    @Override
-    public String deleteStudent(Long id) {
-        Student student = getStudent(id);
-        student.setStatus(StudentStatus.INACTIVE);
-        studentRepository.save(student);
-        return "Student successfully deleted with ID "+id;
-    }
 
     @Override
-    public StudentResponse updateStudent(StudentCreateRequest studentCreateRequest, Long id) {
+    public StudentResponse updateStudent(StudentUpdateRequest studentUpdateRequest, Long id) {
 
         Student studentFromDb = getStudent(id);
 
-        studentFromDb.setFirstname(studentCreateRequest.getFirstname());
-        studentFromDb.setLastname(studentCreateRequest.getLastname());
-        studentFromDb.setPhone(studentCreateRequest.getPhone());
-        studentFromDb.setEmail(studentCreateRequest.getEmail());
-        studentFromDb.setDateOfBirth(studentCreateRequest.getDateOfBirth());
+        if (studentRepository.existsByEmailAndStudentIdNot(studentFromDb.getEmail(),id)){
+            throw new DuplicateResourceException("Email already used by another student");
+        }
+        studentFromDb.setFirstname(studentUpdateRequest.getFirstname());
+        studentFromDb.setLastname(studentUpdateRequest.getLastname());
+        studentFromDb.setPhone(studentUpdateRequest.getPhone());
+        studentFromDb.setEmail(studentUpdateRequest.getEmail());
+        studentFromDb.setDateOfBirth(studentUpdateRequest.getDateOfBirth());
 
 
 
@@ -83,6 +79,14 @@ public class StudentServiceImpl implements StudentService{
         student.setStatus(studentStatusRequest.getStatus());
         studentRepository.save(student);
         return student.getStatus();
+    }
+
+    @Override
+    public ApiMessageResponse deactivateStudent(Long id) {
+        Student student = getStudent(id);
+        student.setStatus(StudentStatus.INACTIVE);
+        studentRepository.save(student);
+        return new ApiMessageResponse("Student deactivated successfully");
     }
 
     private Student getStudent(Long studentId){

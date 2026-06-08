@@ -1,5 +1,6 @@
 package com.sms.StudentManagmentSystem.student;
 
+import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import jakarta.validation.Valid;
 
 import java.util.List;
@@ -11,9 +12,10 @@ public interface StudentService {
 
     StudentResponse getStudentById(Long id);
 
-    String deleteStudent(Long id);
 
-    StudentResponse updateStudent(StudentCreateRequest studentCreateRequest, Long id);
+    StudentResponse updateStudent(StudentUpdateRequest studentUpdateRequest, Long id);
 
     StudentStatus updateStudentStatus(StudentStatusRequest studentStatusRequest, Long id);
+
+    ApiMessageResponse deactivateStudent(Long id);
 }

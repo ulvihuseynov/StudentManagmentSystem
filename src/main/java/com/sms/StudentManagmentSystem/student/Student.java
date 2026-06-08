@@ -15,7 +15,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "students")
+@Table(name = "students",
+uniqueConstraints = {
+        @UniqueConstraint(name="uk_students_email",columnNames = "email")
+})
 @Setter
 @Getter
 @AllArgsConstructor
@@ -27,25 +30,31 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long  studentId;
 
+    @Column(nullable = false)
     private String firstname;
 
+    @Column(nullable = false)
     private String   lastname;
 
     @Email
+    @Column(name = "email",nullable = false,unique = true)
     private String email;
 
-
+    @Column(nullable = false)
     private String   phone;
 
-
+    @Column(nullable = false)
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StudentStatus   status;
 
     @CreatedDate
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime     updatedAt;
+    @Column(nullable = false)
+    private LocalDateTime updatedAt;
 }

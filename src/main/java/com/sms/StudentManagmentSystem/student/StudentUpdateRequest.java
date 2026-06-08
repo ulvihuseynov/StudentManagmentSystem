@@ -38,6 +38,5 @@ public class StudentUpdateRequest {
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Status is required")
     private StudentStatus   status;
 }

@@ -23,6 +23,6 @@ public class StudentResponse {
     private String  phone;
     private LocalDate dateOfBirth;
     private StudentStatus   status;
-    private LocalDate createdAt;
-    private LocalDate     updatedAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime     updatedAt;
 }
