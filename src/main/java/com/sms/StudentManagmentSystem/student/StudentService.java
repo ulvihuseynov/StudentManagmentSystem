@@ -10,4 +10,10 @@ public interface StudentService {
     List<StudentResponse> getAllStudent();
 
     StudentResponse getStudentById(Long id);
+
+    String deleteStudent(Long id);
+
+    StudentResponse updateStudent(StudentCreateRequest studentCreateRequest, Long id);
+
+    StudentStatus updateStudentStatus(StudentStatusRequest studentStatusRequest, Long id);
 }

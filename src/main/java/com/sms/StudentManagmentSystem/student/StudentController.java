@@ -37,4 +37,29 @@ public class StudentController {
 
         return new ResponseEntity<>(studentResponse, HttpStatus.OK);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentResponse> updateStudent(@RequestBody StudentCreateRequest studentCreateRequest,
+                                                @PathVariable Long id){
+
+        StudentResponse updateStudent= studentService.updateStudent(studentCreateRequest,id);
+
+        return new ResponseEntity<>(updateStudent, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<StudentStatus> updateStudentStatus(@RequestBody StudentStatusRequest studentStatusRequest,
+                                                         @PathVariable Long id){
+
+        StudentStatus updateStudentStatus= studentService.updateStudentStatus(studentStatusRequest,id);
+
+        return new ResponseEntity<>(updateStudentStatus, HttpStatus.OK);
+    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteStudent(@PathVariable Long id){
+
+        String status= studentService.deleteStudent(id);
+
+        return new ResponseEntity<>(status, HttpStatus.OK);
+    }
 }

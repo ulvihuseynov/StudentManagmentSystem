@@ -39,8 +39,8 @@ public class MyGlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex){
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiErrorResponse> handleGenericException(RuntimeException ex){
 
         ApiErrorResponse errorResponse=new ApiErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
