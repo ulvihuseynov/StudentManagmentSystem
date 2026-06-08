@@ -18,7 +18,7 @@ public class StudentServiceImpl implements StudentService{
         Student studentDb=studentRepository.findByEmail(student.getEmail());
         if (studentDb !=null){
 
-            throw new StudentNotFoundException("Student is already exist " + studentDb.getFirstname());
+            throw new StudentNotFoundException("Student is already exist " + studentDb.getEmail());
 
         }
         Student newStudent=new Student();
@@ -79,10 +79,8 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public StudentStatus updateStudentStatus(StudentStatusRequest studentStatusRequest, Long id) {
         Student student = getStudent(id);
+
         student.setStatus(studentStatusRequest.getStatus());
-        if (!studentStatusRequest.getStatus().equals(student.getStatus())){
-            throw new StudentNotFoundException("Student status is not available. Only status ACTIVE, INACTIVE, GRADUATED, SUSPENDED");
-        }
         studentRepository.save(student);
         return student.getStatus();
     }

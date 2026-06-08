@@ -20,18 +20,16 @@ public class StudentUpdateRequest {
 
 
     @NotBlank(message = "First name is required")
-    @NotNull
     private String firstname;
 
     @NotBlank(message = "Last name is required")
-    @NotNull
     private String   lastname;
 
     @Email
+    @NotBlank(message = "Email is required")
     private String email;
 
-//    @Min(value = 7,message = "Phone number must be at least 7 characters")
-//    @Max(value = 12,message = "Phone number must be at most 12 characters")
+    @NotBlank(message = "Phone number is required")
     private String  phone;
 
     @NotNull(message = "Date birth is required")
@@ -40,5 +38,6 @@ public class StudentUpdateRequest {
     private LocalDate dateOfBirth;
 
     @Enumerated(EnumType.STRING)
+    @NotBlank(message = "Status is required")
     private StudentStatus   status;
 }
