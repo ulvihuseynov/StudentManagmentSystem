@@ -1,8 +1,7 @@
 package com.sms.StudentManagmentSystem.student;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -38,9 +37,6 @@ public class StudentCreateRequest {
     @Past(message = "Date of birth must be in the past")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
-
-    @Enumerated(EnumType.STRING)
-    private StudentStatus   status;
 
 
 }

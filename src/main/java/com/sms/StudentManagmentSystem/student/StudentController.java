@@ -49,10 +49,10 @@ public class StudentController {
     }
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<StudentStatus> updateStudentStatus(@Valid @RequestBody StudentStatusRequest studentStatusRequest,
+    public ResponseEntity<StudentResponse> updateStudentStatus(@Valid @RequestBody StudentStatusRequest studentStatusRequest,
                                                          @PathVariable Long id){
 
-        StudentStatus updateStudentStatus= studentService.updateStudentStatus(studentStatusRequest,id);
+        StudentResponse updateStudentStatus= studentService.updateStudentStatus(studentStatusRequest,id);
 
         return new ResponseEntity<>(updateStudentStatus, HttpStatus.OK);
     }

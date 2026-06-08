@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService{
 
         Student studentFromDb = getStudent(id);
 
-        if (studentRepository.existsByEmailAndStudentIdNot(studentFromDb.getEmail(),id)){
+        if (studentRepository.existsByEmailAndStudentIdNot(studentUpdateRequest.getEmail(),id)){
             throw new DuplicateResourceException("Email already used by another student");
         }
         studentFromDb.setFirstname(studentUpdateRequest.getFirstname());
@@ -73,12 +73,12 @@ public class StudentServiceImpl implements StudentService{
     }
 
     @Override
-    public StudentStatus updateStudentStatus(StudentStatusRequest studentStatusRequest, Long id) {
+    public StudentResponse updateStudentStatus(StudentStatusRequest studentStatusRequest, Long id) {
         Student student = getStudent(id);
 
         student.setStatus(studentStatusRequest.getStatus());
-        studentRepository.save(student);
-        return student.getStatus();
+
+        return studentMapper.toResponse(studentRepository.save(student));
     }
 
     @Override

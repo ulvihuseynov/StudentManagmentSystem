@@ -61,14 +61,14 @@ public class MyGlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ApiErrorResponse> handleGenericException(RuntimeException ex){
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex){
 
         ApiErrorResponse errorResponse=new ApiErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                ex.getMessage()
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal server error"
         );
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -51,7 +51,7 @@ public class Student {
     private StudentStatus   status;
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
