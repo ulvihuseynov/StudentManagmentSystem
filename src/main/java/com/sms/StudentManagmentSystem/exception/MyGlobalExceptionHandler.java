@@ -1,6 +1,7 @@
 package com.sms.StudentManagmentSystem.exception;
 
 import com.sms.StudentManagmentSystem.student.StudentNotFoundException;
+import com.sms.StudentManagmentSystem.teacher.TeacherNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -41,6 +42,17 @@ public class MyGlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(TeacherNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleTeacherNotFoundException(TeacherNotFoundException ex){
+
+        ApiErrorResponse errorResponse=new ApiErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage()
+        );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<ApiErrorResponse> handleDuplicateResourceException(DuplicateResourceException ex){
 
@@ -61,6 +73,8 @@ public class MyGlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
     }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex){
 
