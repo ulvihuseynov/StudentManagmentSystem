@@ -1,8 +1,10 @@
-package com.sms.StudentManagmentSystem.teacher;
+package com.sms.StudentManagmentSystem.group;
 
-import com.sms.StudentManagmentSystem.group.Group;
+
+import com.sms.StudentManagmentSystem.course.Course;
+import com.sms.StudentManagmentSystem.teacher.Teacher;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Max;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,54 +14,51 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Entity
-@Table(name = "teachers",
-        uniqueConstraints = {
-                @UniqueConstraint(name = "uk_teacher_email", columnNames = "email")
-        })
+@Table(name = "groups")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class Teacher {
-
+public class Group {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teacherId;
+    private Long groupId;
 
     @Column(nullable = false)
-    private String firstname;
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "courses_id")
+    private Course course;
+
+    @ManyToOne
+    @JoinColumn(name = "teachers_id")
+    private Teacher teacher;
 
     @Column(nullable = false)
-    private String lastname;
-
-    @Email
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-    @Column(nullable = false)
-    private String phone;
+    @CreatedDate
+    private LocalDateTime startDate;
 
     @Column(nullable = false)
-    private String specialization;
+    @LastModifiedDate
+    private LocalDateTime endDate;
+
+    @Column(nullable = false)
+    private Integer capacity;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TeacherStatus status;
+    private GroupStatus status;
 
     @CreatedDate
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "teacher")
-    private List<Group> groupList=new ArrayList<>();
 }
