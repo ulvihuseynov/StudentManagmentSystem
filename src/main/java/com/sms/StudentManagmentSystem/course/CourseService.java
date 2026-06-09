@@ -1,7 +1,6 @@
 package com.sms.StudentManagmentSystem.course;
 
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
-import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -12,9 +11,9 @@ public interface CourseService {
 
     CourseResponse getCourseById(Long id);
 
-    CourseResponse updateCourse(@Valid CourseUpdateRequest courseUpdateRequest, Long id);
+    CourseResponse updateCourse( CourseUpdateRequest courseUpdateRequest, Long id);
 
-    CourseResponse updateCourseStatus(@Valid CourseUpdateStatus courseUpdateStatus, Long id);
+    CourseResponse updateCourseStatus( CourseUpdateStatus courseUpdateStatus, Long id);
 
     ApiMessageResponse deactivateCourse(Long id);
 }

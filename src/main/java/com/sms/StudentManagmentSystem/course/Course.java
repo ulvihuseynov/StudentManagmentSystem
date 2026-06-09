@@ -30,7 +30,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
-    @Column(nullable = false,unique = true,updatable = false)
+    @Column(nullable = false,unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -49,7 +49,7 @@ public class Course {
     private CourseStatus status;
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
