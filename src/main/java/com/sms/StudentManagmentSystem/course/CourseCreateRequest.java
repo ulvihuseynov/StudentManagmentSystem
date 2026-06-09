@@ -1,11 +1,6 @@
 package com.sms.StudentManagmentSystem.course;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,15 +25,16 @@ public class CourseCreateRequest {
     private String description;
 
     @Min(value = 1,message = "Duration In Months at least 1 month")
+    @NotNull(message = "Duration In Month is not null")
     private Integer durationInMonths;
 
-    @Min(value = 0,message = "Price is not negative")
+    @DecimalMin(value = "0.0",message = "Price is not negative")
+    @NotNull(message = "Price is not null")
     private BigDecimal price;
 
-    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Level is not null")
     private CourseLevel level;
 
-    @Enumerated(EnumType.STRING)
-    private CourseStatus status;
+
 
 }

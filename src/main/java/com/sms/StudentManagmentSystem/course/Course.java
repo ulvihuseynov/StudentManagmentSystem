@@ -30,7 +30,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false,unique = true,updatable = false)
     private String name;
 
     @Column(nullable = false)

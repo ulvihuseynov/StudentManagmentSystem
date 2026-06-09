@@ -54,7 +54,7 @@ public class CourseServiceImpl implements CourseService{
         course.setPrice(courseUpdateRequest.getPrice());
         course.setLevel(courseUpdateRequest.getLevel());
         course.setDescription(courseUpdateRequest.getDescription());
-        course.setDescription(courseUpdateRequest.getDescription());
+        course.setDurationInMonths(courseUpdateRequest.getDurationInMonths());
 
         return courseMapper.toResponse(courseRepository.save(course));
     }
