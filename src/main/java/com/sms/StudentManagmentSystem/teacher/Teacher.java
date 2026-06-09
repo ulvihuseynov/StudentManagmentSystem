@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "teachers",
         uniqueConstraints = {
-                @UniqueConstraint(name="uk_teacher_email",columnNames = "email")
+                @UniqueConstraint(name = "uk_teacher_email", columnNames = "email")
         })
 @Setter
 @Getter
@@ -37,7 +37,7 @@ public class Teacher {
     private String lastname;
 
     @Email
-    @Column(name = "email",nullable = false,unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String phone;
@@ -50,7 +50,7 @@ public class Teacher {
     private TeacherStatus status;
 
     @CreatedDate
-    @Column(nullable = false,updatable = false)
+    @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate

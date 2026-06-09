@@ -1,7 +1,5 @@
 package com.sms.StudentManagmentSystem.exception;
 
-import com.sms.StudentManagmentSystem.student.StudentNotFoundException;
-import com.sms.StudentManagmentSystem.teacher.TeacherNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -16,25 +14,25 @@ import java.util.Map;
 public class MyGlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> handleNotValidException(MethodArgumentNotValidException ex){
+    public ResponseEntity<?> handleNotValidException(MethodArgumentNotValidException ex) {
 
-        Map<String,String> errorResponse=new HashMap<>();
+        Map<String, String> errorResponse = new HashMap<>();
 
-       ex.getBindingResult().getFieldErrors().forEach(
-               error->{
-                   errorResponse.put(
-                           error.getField(),error.getDefaultMessage()
-                   );
-               }
-       );
+        ex.getBindingResult().getFieldErrors().forEach(
+                error -> {
+                    errorResponse.put(
+                            error.getField(), error.getDefaultMessage()
+                    );
+                }
+        );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(StudentNotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleStudentNotFoundException(StudentNotFoundException ex){
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleStudentNotFoundException(ResourceNotFoundException ex) {
 
-        ApiErrorResponse errorResponse=new ApiErrorResponse(
+        ApiErrorResponse errorResponse = new ApiErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 ex.getMessage()
         );
@@ -42,21 +40,12 @@ public class MyGlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(TeacherNotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleTeacherNotFoundException(TeacherNotFoundException ex){
 
-        ApiErrorResponse errorResponse=new ApiErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                ex.getMessage()
-        );
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
-    }
 
     @ExceptionHandler(DuplicateResourceException.class)
-    public ResponseEntity<ApiErrorResponse> handleDuplicateResourceException(DuplicateResourceException ex){
+    public ResponseEntity<ApiErrorResponse> handleDuplicateResourceException(DuplicateResourceException ex) {
 
-        ApiErrorResponse errorResponse=new ApiErrorResponse(
+        ApiErrorResponse errorResponse = new ApiErrorResponse(
                 HttpStatus.CONFLICT.value(),
                 ex.getMessage()
         );
@@ -65,20 +54,20 @@ public class MyGlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiErrorResponse> handleJsonParseException(HttpMessageNotReadableException ex){
-        String message="Only these statuses are accepted: ACTIVE, INACTIVE, GRADUATED, SUSPENDED";
-        ApiErrorResponse errorResponse=new ApiErrorResponse(
+    public ResponseEntity<ApiErrorResponse> handleJsonParseException(HttpMessageNotReadableException ex) {
+        String message = "\"Invalid request body or enum value\"";
+        ApiErrorResponse errorResponse = new ApiErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 message
         );
-        return new ResponseEntity<>(errorResponse,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex){
+    public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex) {
 
-        ApiErrorResponse errorResponse=new ApiErrorResponse(
+        ApiErrorResponse errorResponse = new ApiErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Internal server error"
         );

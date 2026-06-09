@@ -1,6 +1,7 @@
 package com.sms.StudentManagmentSystem.student;
 
 import com.sms.StudentManagmentSystem.exception.DuplicateResourceException;
+import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,30 +10,25 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+
     @Override
     public StudentResponse createStudent(StudentCreateRequest studentCreateRequest) {
 
         Student student = studentMapper.toEntity(studentCreateRequest);
 
-        if (studentRepository.existsByEmail(student.getEmail())){
+        if (studentRepository.existsByEmail(student.getEmail())) {
 
-            throw new DuplicateResourceException("Student is already exist with email" + student.getEmail());
+            throw new DuplicateResourceException("Student is already exist with email: " + student.getEmail());
 
         }
-        Student newStudent=new Student();
 
-        newStudent.setFirstname(student.getFirstname());
-        newStudent.setLastname(student.getLastname());
-        newStudent.setEmail(student.getEmail());
-        newStudent.setStatus(StudentStatus.ACTIVE);
-        newStudent.setPhone(student.getPhone());
-        newStudent.setDateOfBirth(student.getDateOfBirth());
+        student.setStatus(StudentStatus.ACTIVE);
 
-    return studentMapper.toResponse(studentRepository.save(newStudent));
+        return studentMapper.toResponse(studentRepository.save(student));
     }
 
     @Override
@@ -47,8 +43,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public StudentResponse getStudentById(Long id) {
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID " + id));
+        Student student = getStudent(id);
         return studentMapper.toResponse(student);
     }
 
@@ -58,7 +53,7 @@ public class StudentServiceImpl implements StudentService{
 
         Student studentFromDb = getStudent(id);
 
-        if (studentRepository.existsByEmailAndStudentIdNot(studentUpdateRequest.getEmail(),id)){
+        if (studentRepository.existsByEmailAndStudentIdNot(studentUpdateRequest.getEmail(), id)) {
             throw new DuplicateResourceException("Email already used by another student");
         }
         studentFromDb.setFirstname(studentUpdateRequest.getFirstname());
@@ -66,7 +61,6 @@ public class StudentServiceImpl implements StudentService{
         studentFromDb.setPhone(studentUpdateRequest.getPhone());
         studentFromDb.setEmail(studentUpdateRequest.getEmail());
         studentFromDb.setDateOfBirth(studentUpdateRequest.getDateOfBirth());
-
 
 
         return studentMapper.toResponse(studentRepository.save(studentFromDb));
@@ -89,9 +83,9 @@ public class StudentServiceImpl implements StudentService{
         return new ApiMessageResponse("Student deactivated successfully");
     }
 
-    private Student getStudent(Long studentId){
-       return studentRepository.findById(studentId)
-                .orElseThrow(() -> new StudentNotFoundException("Student not found with ID " + studentId));
+    private Student getStudent(Long studentId) {
+        return studentRepository.findById(studentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID " + studentId));
     }
 }
 

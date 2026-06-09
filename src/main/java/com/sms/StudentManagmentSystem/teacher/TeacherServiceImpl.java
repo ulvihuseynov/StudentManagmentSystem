@@ -1,6 +1,7 @@
 package com.sms.StudentManagmentSystem.teacher;
 
 import com.sms.StudentManagmentSystem.exception.DuplicateResourceException;
+import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,19 +21,14 @@ public class TeacherServiceImpl implements TeacherService{
         Teacher teacher = teacherMapper.toEntity(teacherCreateRequest);
 
         if (teacherRepository.existsByEmail(teacher.getEmail())){
-            throw new DuplicateResourceException("Teacher is already exist with email: " + teacher.getEmail());
+            throw new DuplicateResourceException("Teacher is already exist with email: " + teacherCreateRequest.getEmail());
         }
-        Teacher newTeacher=new Teacher();
-
-        newTeacher.setFirstname(teacher.getFirstname());
-        newTeacher.setLastname(teacher.getLastname());
-        newTeacher.setEmail(teacher.getEmail());
-        newTeacher.setPhone(teacher.getPhone());
-        newTeacher.setStatus(TeacherStatus.ACTIVE);
-        newTeacher.setSpecialization(teacher.getSpecialization());
 
 
-        return teacherMapper.toResponse(teacherRepository.save(newTeacher));
+        teacher.setStatus(TeacherStatus.ACTIVE);
+
+
+        return teacherMapper.toResponse(teacherRepository.save(teacher));
     }
 
     @Override
@@ -90,6 +86,6 @@ public class TeacherServiceImpl implements TeacherService{
     private Teacher getTeacher(Long id){
 
         return teacherRepository.findById(id)
-                .orElseThrow(() -> new TeacherNotFoundException("Teacher not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + id));
     }
 }
