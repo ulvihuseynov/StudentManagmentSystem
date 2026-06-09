@@ -8,11 +8,9 @@ import org.mapstruct.ReportingPolicy;
 public interface GroupMapper {
 
 
-//    @Mapping(source = "course",target = "course")
-//    @Mapping(source = "teacher",target = "teacher")
+
     Group toEntity (GroupCreateRequest groupCreateRequest);
 
-    @Mapping(source = "course",target = "course")
-    @Mapping(source = "teacher",target = "teacher")
+
     GroupResponse toResponse(Group group);
 }

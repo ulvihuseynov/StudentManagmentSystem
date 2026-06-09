@@ -41,7 +41,7 @@ public class GroupController {
         return new ResponseEntity<>(groupResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/course/{courseId}/teacher/{teacherId}")
+    @PutMapping("/{id}/course/{courseId}/teacher/{teacherId}")
     public ResponseEntity<GroupResponse> updateGroup(@Valid @RequestBody GroupUpdateRequest groupUpdateRequest,
                                                      @PathVariable Long id,
                                                      @PathVariable Long courseId,
@@ -52,7 +52,7 @@ public class GroupController {
         return new ResponseEntity<>(groupResponse, HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/status")
     public ResponseEntity<GroupResponse> updateGroupStatus(@Valid @RequestBody GroupUpdateStatus groupUpdateStatus,
                                                          @PathVariable Long id){
 

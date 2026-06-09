@@ -1,5 +1,6 @@
 package com.sms.StudentManagmentSystem.course;
 
+import com.sms.StudentManagmentSystem.group.Group;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -55,4 +57,8 @@ public class Course {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+
+    @OneToMany(mappedBy = "course")
+    private List<Group> groups=new ArrayList<>();
 }

@@ -2,7 +2,9 @@ package com.sms.StudentManagmentSystem.group;
 
 
 import com.sms.StudentManagmentSystem.course.Course;
+import com.sms.StudentManagmentSystem.course.CourseResponse;
 import com.sms.StudentManagmentSystem.teacher.Teacher;
+import com.sms.StudentManagmentSystem.teacher.TeacherResponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,8 +25,8 @@ public class GroupResponse {
 
     private Long groupId;
     private String name;
-    private Course course;
-    private Teacher teacher;
+    private CourseResponse course;
+    private TeacherResponse teacher;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Integer capacity;

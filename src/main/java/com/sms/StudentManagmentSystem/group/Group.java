@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "groups")
+@Table(name = "course_group")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -32,11 +32,11 @@ public class Group {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "courses_id")
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "teachers_id")
+    @JoinColumn(name = "teacher_id")
     private Teacher teacher;
 
     @Column(nullable = false)
