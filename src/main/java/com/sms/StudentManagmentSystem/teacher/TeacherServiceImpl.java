@@ -49,7 +49,7 @@ public class TeacherServiceImpl implements TeacherService{
 
         Teacher teacherFromDb = getTeacher(id);
         if (teacherRepository.existsByEmailAndTeacherIdNot(teacherUpdateRequest.getEmail(),id)){
-            throw new DuplicateResourceException("Email already used by another teacher: " + teacherFromDb.getEmail());
+            throw new DuplicateResourceException("Email already used by another teacher: " + teacherUpdateRequest.getEmail());
         }
         teacherFromDb.setFirstname(teacherUpdateRequest.getFirstname());
         teacherFromDb.setLastname(teacherUpdateRequest.getLastname());

@@ -55,7 +55,7 @@ public class MyGlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ApiErrorResponse> handleJsonParseException(HttpMessageNotReadableException ex) {
-        String message = "\"Invalid request body or enum value\"";
+        String message = "Invalid request body or enum value";
         ApiErrorResponse errorResponse = new ApiErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 message
@@ -69,7 +69,7 @@ public class MyGlobalExceptionHandler {
 
         ApiErrorResponse errorResponse = new ApiErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Internal server error"
+                ex.getMessage()
         );
 
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
