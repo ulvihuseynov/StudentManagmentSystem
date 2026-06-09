@@ -16,11 +16,9 @@ public class GroupController {
 
     private final GroupService groupService;
 
-    @PostMapping("/course/{courseId}/teacher/{teacherId}")
-    public ResponseEntity<GroupResponse> createGroup(@Valid @RequestBody GroupCreateRequest groupCreateRequest,
-                                                     @PathVariable Long courseId,
-                                                     @PathVariable Long teacherId){
-        GroupResponse groupResponse= groupService.createGroup(groupCreateRequest,courseId,teacherId);
+    @PostMapping
+    public ResponseEntity<GroupResponse> createGroup(@Valid @RequestBody GroupCreateRequest groupCreateRequest){
+        GroupResponse groupResponse= groupService.createGroup(groupCreateRequest);
 
         return new ResponseEntity<>(groupResponse, HttpStatus.CREATED);
     }
@@ -41,13 +39,11 @@ public class GroupController {
         return new ResponseEntity<>(groupResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/course/{courseId}/teacher/{teacherId}")
+    @PutMapping("/{id}")
     public ResponseEntity<GroupResponse> updateGroup(@Valid @RequestBody GroupUpdateRequest groupUpdateRequest,
-                                                     @PathVariable Long id,
-                                                     @PathVariable Long courseId,
-                                                     @PathVariable Long teacherId){
+                                                     @PathVariable Long id){
 
-        GroupResponse groupResponse= groupService.updateGroup(groupUpdateRequest,id,courseId,teacherId);
+        GroupResponse groupResponse= groupService.updateGroup(groupUpdateRequest,id);
 
         return new ResponseEntity<>(groupResponse, HttpStatus.OK);
     }

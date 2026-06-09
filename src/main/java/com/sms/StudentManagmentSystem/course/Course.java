@@ -59,6 +59,6 @@ public class Course {
     private LocalDateTime updatedAt;
 
 
-    @OneToMany(mappedBy = "course")
+    @OneToMany(mappedBy = "course",fetch = FetchType.LAZY)
     private List<Group> groups=new ArrayList<>();
 }

@@ -60,6 +60,6 @@ public class Teacher {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher",fetch = FetchType.LAZY)
     private List<Group> groupList=new ArrayList<>();
 }

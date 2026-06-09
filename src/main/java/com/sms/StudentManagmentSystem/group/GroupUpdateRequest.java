@@ -1,14 +1,16 @@
 package com.sms.StudentManagmentSystem.group;
 
-import com.sms.StudentManagmentSystem.course.Course;
-import com.sms.StudentManagmentSystem.teacher.Teacher;
+
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -20,7 +22,20 @@ public class GroupUpdateRequest {
     private String name;
 
 
-    @Max(value = 20,message = "Group is full")
+    @Min(value = 1, message = "Capacity must be at least 1")
+    @Max(value = 20, message = "Capacity cannot be greater than 20")
     @NotNull(message = "Capacity is not null")
     private Integer capacity;
+
+    @NotNull(message = "Course id is not null")
+    private Long courseId;
+
+    @NotNull(message = "Teacher id is not null")
+    private Long teacherId;
+
+    @NotNull(message = "Start date is not null")
+    private LocalDate startDate;
+
+    @NotNull(message = "End date is not null")
+    private LocalDate endDate;
 }

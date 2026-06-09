@@ -13,6 +13,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -32,20 +33,18 @@ public class Group {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id",nullable = false)
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id")
+    @JoinColumn(name = "teacher_id",nullable = false)
     private Teacher teacher;
 
     @Column(nullable = false)
-    @CreatedDate
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     @Column(nullable = false)
-    @LastModifiedDate
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     @Column(nullable = false)
     private Integer capacity;
@@ -55,7 +54,7 @@ public class Group {
     private GroupStatus status;
 
     @CreatedDate
-    @Column(nullable = false)
+    @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
