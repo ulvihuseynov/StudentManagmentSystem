@@ -35,7 +35,7 @@ public class GroupServiceImpl implements GroupService {
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with id: " + groupCreateRequest.getTeacherId()));
 
         validateCourseAndTeacher(teacher, course);
-        validateGroupDates(group.getStartDate(), group.getEndDate());
+        validateGroupDates(groupCreateRequest.getStartDate(), groupCreateRequest.getEndDate());
 
         group.setCourse(course);
         group.setTeacher(teacher);
@@ -71,7 +71,7 @@ public class GroupServiceImpl implements GroupService {
 
 
         validateCourseAndTeacher(teacher,course);
-        validateGroupDates(groupUpdateRequest.getEndDate(),groupUpdateRequest.getStartDate());
+        validateGroupDates(groupUpdateRequest.getStartDate(),groupUpdateRequest.getEndDate());
 
         groupFromDb.setTeacher(teacher);
         groupFromDb.setCourse(course);
