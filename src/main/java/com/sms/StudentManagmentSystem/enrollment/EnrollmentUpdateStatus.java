@@ -16,20 +16,9 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class EnrollmentUpdateRequest {
+public class EnrollmentUpdateStatus {
 
-
-
-
-    @NotNull(message = "Student is required")
-    private Student student;
-
-    @NotNull(message = "Group is required")
-    private Group group;
-
-    @NotNull(message = "Enrollment Date is required")
-    private LocalDate enrollment_date;
-
-
+    @NotNull(message = "Status is required")
+    private EnrollmentStatus status;
 
 }

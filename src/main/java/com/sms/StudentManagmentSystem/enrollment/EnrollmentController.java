@@ -50,9 +50,10 @@ public class EnrollmentController {
 
 
     @PatchMapping("/{id}/status")
-    public ResponseEntity<EnrollmentResponse> getEnrollmentStatusUpdate(@PathVariable Long id){
+    public ResponseEntity<EnrollmentResponse> getEnrollmentStatusUpdate(@Valid @RequestBody EnrollmentUpdateStatus enrollmentUpdateStatus,
+                                                                        @PathVariable Long id){
 
-       EnrollmentResponse enrollmentResponse=enrollmentService.getEnrollmentStatusUpdate(id);
+       EnrollmentResponse enrollmentResponse=enrollmentService.getEnrollmentStatusUpdate(enrollmentUpdateStatus,id);
 
         return ResponseEntity.status(HttpStatus.OK).body(enrollmentResponse);
     }

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.context.annotation.DeferredImportSelector;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -40,7 +39,8 @@ public class Enrollment {
     private Group group;
 
     @Column(nullable = false)
-    private LocalDate enrollment_date;
+    @CreatedDate
+    private LocalDate enrollmentDate;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -48,9 +48,9 @@ public class Enrollment {
 
     @Column(nullable = false,updatable = false)
     @CreatedDate
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @Column(nullable = false)
     @LastModifiedDate
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 }

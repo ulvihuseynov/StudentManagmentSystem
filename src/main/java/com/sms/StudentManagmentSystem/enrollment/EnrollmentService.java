@@ -13,7 +13,7 @@ public interface EnrollmentService {
 
     List<EnrollmentResponse> getEnrollmentByGroup(Long groupId);
 
-    EnrollmentResponse getEnrollmentStatusUpdate(Long id);
+    EnrollmentResponse getEnrollmentStatusUpdate(EnrollmentUpdateStatus enrollmentUpdateStatus,Long id);
 
     EnrollmentResponse deactiveEnrollment(Long id);
 }

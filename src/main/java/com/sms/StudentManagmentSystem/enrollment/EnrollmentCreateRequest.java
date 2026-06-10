@@ -27,8 +27,7 @@ public class EnrollmentCreateRequest {
     @NotNull(message = "Group id is required")
     private Long groupId;
 
-    @NotNull(message = "Enrollment Date is required")
-    private LocalDate enrollment_date;
+
 
 
 

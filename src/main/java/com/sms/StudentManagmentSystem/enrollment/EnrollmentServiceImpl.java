@@ -28,24 +28,16 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         Enrollment enrollment = enrollmentMapper.toEntity(enrollmentCreateRequest);
 
-        Group group = groupRepository.findById(enrollmentCreateRequest.getGroupId())
-                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + enrollmentCreateRequest.getGroupId()));
+        Group group = groupRepository.findById(enrollmentCreateRequest.getGroupId()).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + enrollmentCreateRequest.getGroupId()));
 
-        Student student = studentRepository.findById(enrollmentCreateRequest.getStudentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentCreateRequest.getStudentId()));
+        Student student = studentRepository.findById(enrollmentCreateRequest.getStudentId()).orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentCreateRequest.getStudentId()));
 
-        Long studentCount=enrollmentRepository.countByGroup_Capacity(group.getCapacity());
+        Long studentCount = enrollmentRepository.countByGroup_GroupIdAndStatus(group.getGroupId(), EnrollmentStatus.ACTIVE);
 
-        validateGroupCapacity(group.getCapacity(),studentCount);
+        validateGroupCapacity(group.getCapacity(), studentCount);
         validateGroupStatus(group);
         validateStudentStatus(student);
-
-
-        boolean isStudent = enrollmentRepository.existsByStudent_StudentIdAndGroup_GroupId(student.getStudentId(),group.getGroupId());
-
-        if (isStudent) {
-            throw new DuplicateResourceException("Student is already exists in the group");
-        }
+        validateIsStudent(student.getStudentId(), group.getGroupId());
 
 
         enrollment.setStudent(student);
@@ -55,10 +47,73 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         return enrollmentMapper.toResponse(enrollmentRepository.save(enrollment));
     }
 
-    private void validateGroupCapacity(Integer capacity,long studentCount) {
+
+    @Override
+    public List<EnrollmentResponse> getAllEnrollment() {
+        List<Enrollment> enrollments = enrollmentRepository.findAll();
+        return enrollments.stream().map(enrollmentMapper::toResponse).toList();
+    }
+
+    @Override
+    public List<EnrollmentResponse> getEnrollmentByStudent(Long studentId) {
+
+        boolean isStudent = enrollmentRepository.existsByStudent_StudentId(studentId);
+
+        if (!isStudent) {
+            throw new ResourceNotFoundException("Student is not found in the group with ID " + studentId);
+        }
+        List<Enrollment> enrollments = enrollmentRepository.findByStudent_StudentId(studentId);
+
+        return enrollments.stream().map(enrollmentMapper::toResponse).toList();
+    }
+
+    @Override
+    public List<EnrollmentResponse> getEnrollmentByGroup(Long groupId) {
+
+        boolean isGroup = enrollmentRepository.existsByGroup_GroupId(groupId);
+
+        if (!isGroup) {
+            throw new ResourceNotFoundException("Group is not found in the group with ID " + groupId);
+        }
+        List<Enrollment> enrollments = enrollmentRepository.findByGroup_GroupId(groupId);
+
+        return enrollments.stream().map(enrollmentMapper::toResponse).toList();
+    }
+
+    @Override
+    public EnrollmentResponse getEnrollmentStatusUpdate(EnrollmentUpdateStatus enrollmentUpdateStatus, Long id) {
+        Enrollment enrollment = getEnrollment(id);
+        enrollment.setStatus(enrollmentUpdateStatus.getStatus());
+        enrollmentRepository.save(enrollment);
+        return enrollmentMapper.toResponse(enrollment);
+    }
+
+    @Override
+    public EnrollmentResponse deactiveEnrollment(Long id) {
+        Enrollment enrollment = getEnrollment(id);
+        enrollment.setStatus(EnrollmentStatus.CANCELLED);
+        enrollmentRepository.save(enrollment);
+        return enrollmentMapper.toResponse(enrollment);
+    }
+
+    private Enrollment getEnrollment(Long id) {
+
+        return enrollmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + id));
+    }
+
+    private void validateIsStudent(Long studentId, Long groupId) {
+
+        boolean isStudent = enrollmentRepository.existsByStudent_StudentIdAndGroup_GroupId(studentId, groupId);
+
+        if (isStudent) {
+            throw new DuplicateResourceException("Student is already exists in the group");
+        }
+    }
+
+    private void validateGroupCapacity(Integer capacity, long activeStudentCount) {
 
 
-        if (capacity ==(int) studentCount){
+        if (activeStudentCount >=  capacity) {
             throw new BusinessException("Group capacity is full");
         }
     }
@@ -76,57 +131,4 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             throw new BusinessException("Group is not Active");
         }
     }
-
-    @Override
-    public List<EnrollmentResponse> getAllEnrollment() {
-        List<Enrollment> enrollments = enrollmentRepository.findAll();
-        return enrollments.stream().map(enrollmentMapper::toResponse).toList();
-    }
-
-    @Override
-    public List<EnrollmentResponse> getEnrollmentByStudent(Long studentId) {
-
-        boolean isStudent = enrollmentRepository.existsByStudent_StudentId(studentId);
-
-        if (!isStudent) {
-            throw new DuplicateResourceException("Student is not found in the group with ID "+studentId);
-        }
-        List<Enrollment> enrollments=enrollmentRepository.findByStudent_StudentId(studentId);
-
-        return  enrollments.stream().map(enrollmentMapper::toResponse).toList();
-    }
-
-    @Override
-    public List<EnrollmentResponse> getEnrollmentByGroup(Long groupId) {
-
-        boolean isGroup = enrollmentRepository.existsByGroup_GroupId(groupId);
-
-        if (!isGroup) {
-            throw new DuplicateResourceException("Group is not found in the group with ID "+groupId);
-        }
-        List<Enrollment> enrollments=enrollmentRepository.findByGroup_GroupId(groupId);
-
-        return enrollments.stream().map(enrollmentMapper::toResponse).toList();
-    }
-
-    @Override
-    public EnrollmentResponse getEnrollmentStatusUpdate(Long id) {
-        Enrollment enrollment = getEnrollment(id);
-        enrollment.setStatus(enrollment.getStatus());
-        enrollmentRepository.save(enrollment);
-        return enrollmentMapper.toResponse(enrollment);
-    }
-
-    @Override
-    public EnrollmentResponse deactiveEnrollment(Long id) {
-        Enrollment enrollment = getEnrollment(id);
-        enrollment.setStatus(EnrollmentStatus.CANCELLED);
-        enrollmentRepository.save(enrollment);
-        return enrollmentMapper.toResponse(enrollment);
-    }
-private Enrollment getEnrollment(Long id){
-
-        return enrollmentRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("Enrollment not found with ID: "+id));
-}
 }
