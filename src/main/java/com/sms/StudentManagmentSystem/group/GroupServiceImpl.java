@@ -35,15 +35,12 @@ public class GroupServiceImpl implements GroupService {
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with id: " + groupCreateRequest.getTeacherId()));
 
         validateCourseAndTeacher(teacher, course);
-        validateGroupDates(group.getEndDate(), group.getStartDate());
+        validateGroupDates(group.getStartDate(), group.getEndDate());
 
         group.setCourse(course);
         group.setTeacher(teacher);
 
-        group.setStartDate(group.getStartDate());
-        group.setEndDate(group.getEndDate());
         group.setStatus(GroupStatus.PLANNED);
-
 
         group.setCapacity(groupCreateRequest.getCapacity());
         return groupMapper.toResponse(groupRepository.save(group));
@@ -102,14 +99,14 @@ public class GroupServiceImpl implements GroupService {
     private void validateCourseAndTeacher(Teacher teacher, Course course) {
 
         if (teacher.getStatus() != TeacherStatus.ACTIVE) {
-            throw new BusinessException("Only ACTIVE course can be used for group");
+            throw new BusinessException("Only ACTIVE teacher can be used for group");
         }
 
         if (course.getStatus() != CourseStatus.ACTIVE) {
-            throw new BusinessException("Only ACTIVE teacher can be assigned to group");
+            throw new BusinessException("Only ACTIVE course can be assigned to group");
         }
     }
-    private void validateGroupDates(LocalDate endDate, LocalDate startDate) {
+    private void validateGroupDates(LocalDate startDate, LocalDate endDate) {
         if (endDate.isBefore(startDate)){
             throw new BusinessException("End date cannot be before start date");
         }

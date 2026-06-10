@@ -66,11 +66,11 @@ public class MyGlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleBusinessException(BusinessException ex) {
 
         ApiErrorResponse errorResponse = new ApiErrorResponse(
-                HttpStatus.CONFLICT.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage()
         );
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
