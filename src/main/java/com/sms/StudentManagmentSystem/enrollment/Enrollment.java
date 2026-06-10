@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.context.annotation.DeferredImportSelector;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
@@ -45,8 +47,10 @@ public class Enrollment {
     private EnrollmentStatus status;
 
     @Column(nullable = false,updatable = false)
+    @CreatedDate
     private LocalDateTime created_at;
 
     @Column(nullable = false)
+    @LastModifiedDate
     private LocalDateTime updated_at;
 }

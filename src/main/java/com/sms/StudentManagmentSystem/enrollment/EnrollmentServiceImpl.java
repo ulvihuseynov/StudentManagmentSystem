@@ -28,20 +28,20 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         Enrollment enrollment = enrollmentMapper.toEntity(enrollmentCreateRequest);
 
-        Group group = groupRepository.findById(enrollmentCreateRequest.getGroup().getGroupId())
-                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + enrollmentCreateRequest.getGroup().getGroupId()));
+        Group group = groupRepository.findById(enrollmentCreateRequest.getGroupId())
+                .orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + enrollmentCreateRequest.getGroupId()));
 
-        Student student = studentRepository.findById(enrollmentCreateRequest.getStudent().getStudentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentCreateRequest.getStudent().getStudentId()));
+        Student student = studentRepository.findById(enrollmentCreateRequest.getStudentId())
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentCreateRequest.getStudentId()));
 
-        Long studentCount=enrollmentRepository.countByStudent_StudentId(student.getStudentId());
+        Long studentCount=enrollmentRepository.countByGroup_Capacity(group.getCapacity());
 
         validateGroupCapacity(group.getCapacity(),studentCount);
         validateGroupStatus(group);
         validateStudentStatus(student);
 
 
-        boolean isStudent = enrollmentRepository.existsByStudent_StudentId(student.getStudentId());
+        boolean isStudent = enrollmentRepository.existsByStudent_StudentIdAndGroup_GroupId(student.getStudentId(),group.getGroupId());
 
         if (isStudent) {
             throw new DuplicateResourceException("Student is already exists in the group");
@@ -92,7 +92,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
             throw new DuplicateResourceException("Student is not found in the group with ID "+studentId);
         }
         List<Enrollment> enrollments=enrollmentRepository.findByStudent_StudentId(studentId);
-       ;
+
         return  enrollments.stream().map(enrollmentMapper::toResponse).toList();
     }
 
