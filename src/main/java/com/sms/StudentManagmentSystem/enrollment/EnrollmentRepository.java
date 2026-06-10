@@ -16,5 +16,5 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment,Long> {
     boolean existsByStudent_StudentIdAndGroup_GroupId(Long studentId, Long groupId);
 
 
-    Long countByGroup_GroupIdAndStatus(Long groupId, EnrollmentStatus enrollmentStatus);
+    long countByGroup_GroupIdAndStatus(Long groupId, EnrollmentStatus enrollmentStatus);
 }

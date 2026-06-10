@@ -33,12 +33,12 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         Student student = studentRepository.findById(enrollmentCreateRequest.getStudentId()).orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentCreateRequest.getStudentId()));
 
-        Long studentCount = enrollmentRepository.countByGroup_GroupIdAndStatus(group.getGroupId(), EnrollmentStatus.ACTIVE);
+        long studentCount = enrollmentRepository.countByGroup_GroupIdAndStatus(group.getGroupId(), EnrollmentStatus.ACTIVE);
 
         validateGroupCapacity(group.getCapacity(), studentCount);
         validateGroupStatus(group);
         validateStudentStatus(student);
-        validateIsStudent(student.getStudentId(), group.getGroupId());
+        validateStudentNotAlreadyEnrolled(student.getStudentId(), group.getGroupId());
 
 
         enrollment.setStudent(student);
@@ -62,7 +62,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         boolean isStudent = studentRepository.existsById(studentId);
 
         if (!isStudent) {
-            throw new ResourceNotFoundException("Student is not found in the group with ID " + studentId);
+            throw new ResourceNotFoundException("Student is not found  " + studentId);
         }
         List<Enrollment> enrollments = enrollmentRepository.findByStudent_StudentId(studentId);
 
@@ -75,7 +75,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         boolean isGroup = groupRepository.existsById(groupId);
 
         if (!isGroup) {
-            throw new ResourceNotFoundException("Group is not found in the group with ID " + groupId);
+            throw new ResourceNotFoundException("Group is not found  " + groupId);
         }
         List<Enrollment> enrollments = enrollmentRepository.findByGroup_GroupId(groupId);
 
@@ -103,12 +103,12 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         return enrollmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + id));
     }
 
-    private void validateIsStudent(Long studentId, Long groupId) {
+    private void validateStudentNotAlreadyEnrolled(Long studentId, Long groupId) {
 
         boolean isStudent = enrollmentRepository.existsByStudent_StudentIdAndGroup_GroupId(studentId, groupId);
 
         if (isStudent) {
-            throw new DuplicateResourceException("Student is already exists in the group");
+            throw new DuplicateResourceException("Student is already enrolled in this group");
         }
     }
 
