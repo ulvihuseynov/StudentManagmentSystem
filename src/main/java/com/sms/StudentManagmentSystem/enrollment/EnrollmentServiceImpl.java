@@ -27,7 +27,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public EnrollmentResponse createEnrollment(EnrollmentCreateRequest enrollmentCreateRequest) {
 
-        Enrollment enrollment = enrollmentMapper.toEntity(enrollmentCreateRequest);
+        Enrollment enrollment = new Enrollment();
 
         Group group = groupRepository.findById(enrollmentCreateRequest.getGroupId()).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + enrollmentCreateRequest.getGroupId()));
 
@@ -83,7 +83,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     }
 
     @Override
-    public EnrollmentResponse getEnrollmentStatusUpdate(EnrollmentUpdateStatus enrollmentUpdateStatus, Long id) {
+    public EnrollmentResponse updateEnrollmentStatus(EnrollmentUpdateStatus enrollmentUpdateStatus, Long id) {
         Enrollment enrollment = getEnrollment(id);
         enrollment.setStatus(enrollmentUpdateStatus.getStatus());
         enrollmentRepository.save(enrollment);

@@ -7,9 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
-
 @Setter
 @Getter
 @AllArgsConstructor
@@ -25,10 +22,6 @@ public class EnrollmentCreateRequest {
     @NotNull(message = "Group id is required")
     private Long groupId;
 
-
-
-    @NotNull(message = "Enrollment date id is required")
-    private LocalDate enrollmentDate;
 
 
 
