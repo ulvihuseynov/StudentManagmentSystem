@@ -39,7 +39,6 @@ public class Enrollment {
     private Group group;
 
     @Column(nullable = false)
-    @CreatedDate
     private LocalDate enrollmentDate;
 
     @Enumerated(EnumType.STRING)

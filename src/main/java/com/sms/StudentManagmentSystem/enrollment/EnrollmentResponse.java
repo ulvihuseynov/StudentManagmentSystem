@@ -1,11 +1,8 @@
 package com.sms.StudentManagmentSystem.enrollment;
 
 
-import com.sms.StudentManagmentSystem.group.Group;
 import com.sms.StudentManagmentSystem.group.GroupResponse;
-import com.sms.StudentManagmentSystem.student.Student;
 import com.sms.StudentManagmentSystem.student.StudentResponse;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +25,11 @@ public class EnrollmentResponse {
 
     private GroupResponse group;
 
-    private LocalDate enrollment_date;
+    private LocalDate enrollmentDate;
 
     private EnrollmentStatus status;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 }

@@ -12,6 +12,7 @@ import com.sms.StudentManagmentSystem.student.StudentStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -43,6 +44,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         enrollment.setStudent(student);
         enrollment.setGroup(group);
         enrollment.setStatus(EnrollmentStatus.ACTIVE);
+        enrollment.setEnrollmentDate(LocalDate.now());
 
         return enrollmentMapper.toResponse(enrollmentRepository.save(enrollment));
     }
@@ -57,7 +59,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public List<EnrollmentResponse> getEnrollmentByStudent(Long studentId) {
 
-        boolean isStudent = enrollmentRepository.existsByStudent_StudentId(studentId);
+        boolean isStudent = studentRepository.existsById(studentId);
 
         if (!isStudent) {
             throw new ResourceNotFoundException("Student is not found in the group with ID " + studentId);
@@ -70,7 +72,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
     @Override
     public List<EnrollmentResponse> getEnrollmentByGroup(Long groupId) {
 
-        boolean isGroup = enrollmentRepository.existsByGroup_GroupId(groupId);
+        boolean isGroup = groupRepository.existsById(groupId);
 
         if (!isGroup) {
             throw new ResourceNotFoundException("Group is not found in the group with ID " + groupId);

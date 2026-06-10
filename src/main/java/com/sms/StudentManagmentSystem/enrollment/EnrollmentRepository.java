@@ -13,11 +13,6 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment,Long> {
     List<Enrollment> findByGroup_GroupId(Long groupId);
 
 
-
-    boolean existsByStudent_StudentId(Long studentId);
-
-    boolean existsByGroup_GroupId(Long groupId);
-
     boolean existsByStudent_StudentIdAndGroup_GroupId(Long studentId, Long groupId);
 
 

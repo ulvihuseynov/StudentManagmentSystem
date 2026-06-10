@@ -1,8 +1,6 @@
 package com.sms.StudentManagmentSystem.enrollment;
 
 
-import com.sms.StudentManagmentSystem.group.Group;
-import com.sms.StudentManagmentSystem.student.Student;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,6 +25,10 @@ public class EnrollmentCreateRequest {
     @NotNull(message = "Group id is required")
     private Long groupId;
 
+
+
+    @NotNull(message = "Enrollment date id is required")
+    private LocalDate enrollmentDate;
 
 
 
