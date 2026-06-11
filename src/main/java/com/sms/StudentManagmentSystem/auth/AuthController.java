@@ -1,31 +1,39 @@
 package com.sms.StudentManagmentSystem.auth;
 
+import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
-    private AuthService authService;
+    private final AuthService authService;
 
-    @PostMapping
-    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest loginRequest){
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginRequest loginRequest){
 
        LoginResponse loginResponse= authService.loginUser(loginRequest);
        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
     }
 
-    @PostMapping
-    public ResponseEntity<LoginResponse> registerUser(@RequestBody RegisterRequest registerRequest){
+    @PostMapping("/register")
+    public ResponseEntity<ApiMessageResponse> registerUser(@Valid @RequestBody RegisterRequest registerRequest){
 
-        LoginResponse loginResponse= authService.registerUser(registerRequest);
-        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
+        ApiMessageResponse registerResponse= authService.registerUser(registerRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(registerResponse);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<String> currentUser(){
+
+
+        String currentUser= authService.currentUser();
+        return ResponseEntity.status(HttpStatus.OK).body(currentUser);
     }
 }

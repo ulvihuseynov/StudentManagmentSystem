@@ -27,40 +27,53 @@ public class SecurityConfig {
     private final JwtAuthenticationEntryPoint authenticationEntryPoint;
     private final JwtAccessDeniedHandler accessDeniedHandler;
     private final UserDetailsServiceImpl userDetailsService;
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity security){
 
-      return   security.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(session->
-                                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .headers(header->header.frameOptions(
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider(userDetailsService);
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) {
+        return configuration.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity security) {
+
+        return security.csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(header -> header.frameOptions(
                         HeadersConfigurer.FrameOptionsConfig::sameOrigin))
-                .exceptionHandling(exception->
-                    exception.authenticationEntryPoint(authenticationEntryPoint)
-                            .accessDeniedHandler(accessDeniedHandler)
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint(authenticationEntryPoint)
+                                .accessDeniedHandler(accessDeniedHandler)
                 )
-                .authorizeHttpRequests(request->
-                       request.requestMatchers("").permitAll()
-                               .anyRequest().authenticated())
+                .authorizeHttpRequests(request ->
+
+                        request.requestMatchers("/api/auth/**").permitAll()
+//                                .requestMatchers("/api/students").hasRole("ADMIN")
+//                                .requestMatchers("/api/teachers").hasRole("ADMIN")
+//                                .requestMatchers("/api/courses").hasRole("ADMIN")
+//                                .requestMatchers("/api/groups").hasRole("ADMIN")
+//                                .requestMatchers("/api/enrollments").hasRole("ADMIN")
+                                .anyRequest().authenticated())
+                .authenticationProvider(authenticationProvider())
+
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .build()
                 ;
 
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider(){
-        DaoAuthenticationProvider daoAuthenticationProvider=new DaoAuthenticationProvider(userDetailsService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        return daoAuthenticationProvider;
-    }
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration){
-       return configuration.getAuthenticationManager();
-    }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 }

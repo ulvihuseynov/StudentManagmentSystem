@@ -21,5 +21,5 @@ public class Role {
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private AppRole role;
+    private AppRole roleName;
 }
