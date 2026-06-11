@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -25,20 +26,22 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
-    private Role role;
+    private Collection<? extends GrantedAuthority> authorities;
     public static UserDetailsImpl build(User user){
 
+        List<SimpleGrantedAuthority> simpleGrantedAuthorities = user.getRole().stream().map(
+                role -> new SimpleGrantedAuthority(role.getRole().name())).toList();
         return new UserDetailsImpl(
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getRole()
+                simpleGrantedAuthorities
         );
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return authorities;
     }
 
     @Override

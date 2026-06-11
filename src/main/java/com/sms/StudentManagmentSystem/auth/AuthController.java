@@ -21,4 +21,11 @@ public class AuthController {
        LoginResponse loginResponse= authService.loginUser(loginRequest);
        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
     }
+
+    @PostMapping
+    public ResponseEntity<LoginResponse> registerUser(@RequestBody RegisterRequest registerRequest){
+
+        LoginResponse loginResponse= authService.registerUser(registerRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(loginResponse);
+    }
 }

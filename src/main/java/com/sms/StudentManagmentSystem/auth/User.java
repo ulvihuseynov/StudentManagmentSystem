@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -28,7 +31,18 @@ public class User {
     private String email;
     private String password;
     private boolean enabled;
-    private Role role;
     private LocalDate createdAt;
     private LocalDate updatedAt;
+
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> role=new HashSet<>();
+
+    public User(String username, String email, @Nullable String encode) {
+        this.username=username;
+        this.email=email;
+        this.password=encode;
+    }
 }

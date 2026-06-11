@@ -1,10 +1,16 @@
 package com.sms.StudentManagmentSystem.security;
 
-import com.sms.StudentManagmentSystem.exception.ApiErrorResponse;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.http.HttpStatus;
+import io.jsonwebtoken.security.SignatureException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -13,15 +19,18 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-
+private static final Logger logger= LoggerFactory.getLogger(JwtUtils.class);
+    @Value("${app.jwt.secret}")
     private String secretKey;
-    private long expiration;
 
-    public String getJwtFromUsername(String username) {
+    @Value("${app.jwt.expiration}")
+    private long expirationMs;
+
+    public String getJwtFromUsername(UserDetails userDetails) {
         return Jwts.builder()
-                .subject(username)
+                .subject(userDetails.getUsername())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .expiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(getSignInKey())
                 .compact();
 
@@ -46,14 +55,12 @@ public class JwtUtils {
                     .build()
                     .parseSignedClaims(authToken);
             return true;
-        } catch (Exception ex) {
-
-            ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
-                    HttpStatus.BAD_REQUEST.value(), ex.getMessage()
-            );
-
+        } catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | SignatureException |
+                 IllegalArgumentException e) {
+         logger.error("JWT validation error: {}",e.getMessage());
         }
-        return false;
+return false;
+
     }
 
     private SecretKey getSignInKey() {
