@@ -20,6 +20,6 @@ public class Role {
     private Long roleId;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, nullable = false)
+    @Column(length = 20, nullable = false,unique = true)
     private AppRole roleName;
 }
