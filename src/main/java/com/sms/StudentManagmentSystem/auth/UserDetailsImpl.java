@@ -1,12 +1,14 @@
 package com.sms.StudentManagmentSystem.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,17 +19,18 @@ import java.util.List;
 @Getter
 public class UserDetailsImpl implements UserDetails {
 
-    private static final long serialVersionUID=1L;
+    private static final long serialVersionUID = 1L;
 
     private Long id;
     private String username;
     private String email;
-//    private boolean enabled=true;
+    private boolean enabled;
     @JsonIgnore
     private String password;
 
     private Collection<? extends GrantedAuthority> authorities;
-    public static UserDetailsImpl build(User user){
+
+    public static UserDetailsImpl build(User user) {
 
         List<SimpleGrantedAuthority> simpleGrantedAuthorities = user.getRole().stream().map(
                 role -> new SimpleGrantedAuthority(role.getRoleName().name())).toList();
@@ -35,12 +38,13 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
-//                user.isEnabled(),
+                user.isEnabled(),
                 user.getPassword(),
 
                 simpleGrantedAuthorities
         );
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
@@ -73,6 +77,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return enabled;
     }
 }

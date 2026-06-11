@@ -15,7 +15,6 @@ public class LoginResponse {
 
     private Long userId;
     private String accessToken;
-//    private String tokenType;
     private String username;
     private String email;
     private List<String> role;

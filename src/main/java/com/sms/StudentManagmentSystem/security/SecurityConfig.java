@@ -60,15 +60,18 @@ public class SecurityConfig {
                                 .accessDeniedHandler(accessDeniedHandler)
                 )
                 .authorizeHttpRequests(request ->
+                        request
+                                .requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/courses/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+                                .requestMatchers(HttpMethod.GET, "/api/groups/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+                                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
 
-                                 request.requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/students/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/teachers/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/courses/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/groups/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/enrollments/**").permitAll()
-                                .requestMatchers(HttpMethod.GET,"/api/auth/me").authenticated()
-                                         .requestMatchers("/api/students/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/students/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/teachers/**").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/enrollments/**").hasRole("ADMIN")
+
+                                .requestMatchers("/api/students/**").hasRole("ADMIN")
                                 .requestMatchers("/api/teachers/**").hasRole("ADMIN")
                                 .requestMatchers("/api/courses/**").hasRole("ADMIN")
                                 .requestMatchers("/api/groups/**").hasRole("ADMIN")

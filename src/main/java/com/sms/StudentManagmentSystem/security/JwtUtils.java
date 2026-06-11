@@ -19,7 +19,7 @@ import java.util.Date;
 @Component
 public class JwtUtils {
 
-private static final Logger logger= LoggerFactory.getLogger(JwtUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
     @Value("${app.jwt.secretKey}")
     private String secretKey;
 
@@ -27,22 +27,13 @@ private static final Logger logger= LoggerFactory.getLogger(JwtUtils.class);
     private long expirationMs;
 
     public String getJwtFromUsername(UserDetails userDetails) {
-        return Jwts.builder()
-                .subject(userDetails.getUsername())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationMs))
-                .signWith(getSignInKey())
-                .compact();
+        return Jwts.builder().subject(userDetails.getUsername()).issuedAt(new Date()).expiration(new Date(System.currentTimeMillis() + expirationMs)).signWith(getSignInKey()).compact();
 
 
     }
 
     public String getUsernameFromToken(String authToken) {
-        return Jwts.parser()
-                .verifyWith(getSignInKey())
-                .build()
-                .parseSignedClaims(authToken)
-                .getPayload().getSubject();
+        return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(authToken).getPayload().getSubject();
 
 
     }
@@ -50,16 +41,13 @@ private static final Logger logger= LoggerFactory.getLogger(JwtUtils.class);
     public boolean validateJwtToken(String authToken) {
 
         try {
-            Jwts.parser()
-                    .verifyWith(getSignInKey())
-                    .build()
-                    .parseSignedClaims(authToken);
+            Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(authToken);
             return true;
         } catch (ExpiredJwtException | MalformedJwtException | UnsupportedJwtException | SignatureException |
                  IllegalArgumentException e) {
-         logger.error("JWT validation error: {}",e.getMessage());
+            logger.error("JWT validation error: {}", e.getMessage());
         }
-return false;
+        return false;
 
     }
 
