@@ -4,6 +4,7 @@ import com.sms.StudentManagmentSystem.auth.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -60,13 +61,19 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(request ->
 
-                        request.requestMatchers("/api/auth/**").permitAll()
-//                                .requestMatchers("/api/students").hasRole("ADMIN")
-//                                .requestMatchers("/api/teachers").hasRole("ADMIN")
-//                                .requestMatchers("/api/courses").hasRole("ADMIN")
-//                                .requestMatchers("/api/groups").hasRole("ADMIN")
-//                                .requestMatchers("/api/enrollments").hasRole("ADMIN")
-                                .anyRequest().authenticated())
+                                 request.requestMatchers("/api/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/students/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/teachers/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/courses/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/groups/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/enrollments/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/auth/me").authenticated()
+                                         .requestMatchers("/api/students/**").hasRole("ADMIN")
+                                .requestMatchers("/api/teachers/**").hasRole("ADMIN")
+                                .requestMatchers("/api/courses/**").hasRole("ADMIN")
+                                .requestMatchers("/api/groups/**").hasRole("ADMIN")
+                                .requestMatchers("/api/enrollments/**").hasRole("ADMIN").
+                                anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
 
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)

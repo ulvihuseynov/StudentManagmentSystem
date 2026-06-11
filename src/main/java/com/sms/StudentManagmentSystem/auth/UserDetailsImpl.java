@@ -22,7 +22,7 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String username;
     private String email;
-
+//    private boolean enabled=true;
     @JsonIgnore
     private String password;
 
@@ -35,7 +35,9 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUserId(),
                 user.getUsername(),
                 user.getEmail(),
+//                user.isEnabled(),
                 user.getPassword(),
+
                 simpleGrantedAuthorities
         );
     }
