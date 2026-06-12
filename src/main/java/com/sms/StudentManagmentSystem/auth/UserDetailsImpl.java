@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,8 +31,8 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetailsImpl build(User user) {
 
-        List<SimpleGrantedAuthority> simpleGrantedAuthorities = user.getRole().stream().map(
-                role -> new SimpleGrantedAuthority(role.getRoleName().name())).toList();
+        List<GrantedAuthority> simpleGrantedAuthorities = user.getRoles().stream().map(
+                role -> (GrantedAuthority)new SimpleGrantedAuthority(role.getRoleName().name())).toList();
         return new UserDetailsImpl(
                 user.getUserId(),
                 user.getUsername(),
@@ -51,7 +50,7 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     @Override
-    public @Nullable String getPassword() {
+    public  String getPassword() {
         return password;
     }
 
