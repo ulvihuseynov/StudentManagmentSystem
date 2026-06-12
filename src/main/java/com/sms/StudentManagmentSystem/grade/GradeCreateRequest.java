@@ -1,10 +1,7 @@
 package com.sms.StudentManagmentSystem.grade;
 
 
-import com.sms.StudentManagmentSystem.enrollment.Enrollment;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,11 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 @Setter
@@ -34,7 +29,7 @@ public class GradeCreateRequest {
     @NotNull(message = "Score is required")
     private Integer score;
 
-    @Min(value = 0,message = "Max score must be at least 0")
+    @Min(value = 1,message = "Max score must be at least 1")
     @Max(value = 100,message = "Score must be at least 100")
     @NotNull(message = "Max score is required")
     private Integer maxScore;

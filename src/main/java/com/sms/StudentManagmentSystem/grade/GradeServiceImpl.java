@@ -3,12 +3,13 @@ package com.sms.StudentManagmentSystem.grade;
 
 import com.sms.StudentManagmentSystem.enrollment.Enrollment;
 import com.sms.StudentManagmentSystem.enrollment.EnrollmentRepository;
+import com.sms.StudentManagmentSystem.enrollment.EnrollmentStatus;
+import com.sms.StudentManagmentSystem.exception.BusinessException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,25 +27,31 @@ public class GradeServiceImpl implements GradeService{
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Enrollment not found with ID: " + gradeCreateRequest.getEnrollmentId()));
 
+        if (grade.getScore()>grade.getMaxScore()){
+            throw new BusinessException("Score cannot be greater than  max score");
+        }
+
+        if (enrollment.getStatus() != EnrollmentStatus.ACTIVE){
+            throw new BusinessException("Grade can only be added to active enrollment");
+        }
         grade.setEnrollment(enrollment);
 
         return gradeMapper.toResponse(gradeRepository.save(grade));
     }
 
     @Override
-    public GradeResponse getGradeByStudentId(Long studentId) {
+    public  List<GradeResponse> getGradeByStudentId(Long studentId) {
 
-       Grade grade= gradeRepository.findByEnrollmentStudentStudentId(studentId)
-                .orElseThrow(()->new ResourceNotFoundException("Grade not found with enrollment Id "+studentId));
-        return gradeMapper.toResponse(grade);
+        List<Grade> grades = gradeRepository.findByEnrollmentStudentStudentId(studentId);
+
+        return grades.stream().map(gradeMapper::toResponse).toList();
     }
 
     @Override
-    public GradeResponse getGradeByEnrollmentId(Long enrollmentId) {
+    public  List<GradeResponse> getGradeByEnrollmentId(Long enrollmentId) {
 
-        Grade grade=gradeRepository.findByEnrollmentEnrollmentId(enrollmentId)
-                .orElseThrow(()->new ResourceNotFoundException("Grade not found with enrollment Id "+enrollmentId));
-        return gradeMapper.toResponse(grade);
+       List<Grade> grades=gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
+        return grades.stream().map(gradeMapper::toResponse).toList();
     }
 
     @Override
@@ -54,6 +61,11 @@ public class GradeServiceImpl implements GradeService{
         Enrollment enrollment = enrollmentRepository.findById(gradeUpdateRequest.getEnrollmentId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Enrollment not found with ID: " + gradeUpdateRequest.getEnrollmentId()));
+
+
+        if (gradeUpdateRequest.getScore()>gradeUpdateRequest.getMaxScore()){
+            throw new BusinessException("Score is not bigger from max score");
+        }
         gradeFromDb.setDescription(gradeUpdateRequest.getDescription());
         gradeFromDb.setTitle(gradeUpdateRequest.getTitle());
         gradeFromDb.setScore(gradeUpdateRequest.getScore());

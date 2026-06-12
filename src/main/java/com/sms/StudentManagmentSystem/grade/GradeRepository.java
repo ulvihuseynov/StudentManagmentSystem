@@ -3,11 +3,12 @@ package com.sms.StudentManagmentSystem.grade;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+
+import java.util.List;
 
 @Repository
 public interface GradeRepository extends JpaRepository<Grade ,Long> {
-    Optional<Grade> findByEnrollmentEnrollmentId(Long enrollmentId);
+    List<Grade> findByEnrollmentEnrollmentId(Long enrollmentId);
 
-    Optional<Grade> findByEnrollmentStudentStudentId(Long studentId);
+    List<Grade> findByEnrollmentStudentStudentId(Long studentId);
 }

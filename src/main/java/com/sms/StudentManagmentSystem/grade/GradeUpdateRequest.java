@@ -26,7 +26,7 @@ public class GradeUpdateRequest {
     @NotNull(message = "Score is required")
     private Integer score;
 
-    @Min(value = 0,message = "Max score must be at least 0")
+    @Min(value = 1,message = "Max score must be at least 0")
     @Max(value = 100,message = "Score must be at least 100")
     @NotNull(message = "Max score is required")
     private Integer maxScore;

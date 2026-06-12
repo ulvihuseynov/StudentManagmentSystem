@@ -26,17 +26,17 @@ public class GradeController {
     }
 
     @GetMapping("/student/{studentId}")
-    public ResponseEntity<GradeResponse> getGradeByStudentId(@PathVariable Long studentId){
+    public ResponseEntity<List<GradeResponse>> getGradeByStudentId(@PathVariable Long studentId){
 
-        GradeResponse gradeResponse= gradeService.getGradeByStudentId(studentId);
+        List<GradeResponse> gradeResponse= gradeService.getGradeByStudentId(studentId);
 
         return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
     }
 
     @GetMapping("/enrollment/{enrollmentId}")
-    public ResponseEntity<GradeResponse> getGradeByEnrollmentId(@PathVariable Long enrollmentId){
+    public ResponseEntity<List<GradeResponse>> getGradeByEnrollmentId(@PathVariable Long enrollmentId){
 
-      GradeResponse gradeResponse= gradeService.getGradeByEnrollmentId(enrollmentId);
+      List<GradeResponse> gradeResponse= gradeService.getGradeByEnrollmentId(enrollmentId);
 
         return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
     }
@@ -46,6 +46,6 @@ public class GradeController {
 
         GradeResponse gradeResponse= gradeService.updateGrade(gradeUpdateRequest,id);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(gradeResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
     }
 }
