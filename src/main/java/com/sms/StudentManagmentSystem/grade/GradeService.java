@@ -12,4 +12,6 @@ public interface GradeService {
     List<GradeResponse> getGradeByEnrollmentId(Long enrollmentId);
 
     GradeResponse updateGrade(@Valid GradeUpdateRequest gradeUpdateRequest, Long id);
+
+//    List<GradeResponse> getGradeByEnrollmentIdSummary(Long enrollmentId);
 }

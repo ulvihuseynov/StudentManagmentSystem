@@ -22,14 +22,9 @@ public class GradeUpdateRequest {
     @NotBlank(message = "Title is required")
     private String title;
     @Min(value = 0,message = "Score must be at least 0")
-    @Max(value = 10,message = "Score must be at most 10")
     @NotNull(message = "Score is required")
     private Integer score;
 
-    @Min(value = 1,message = "Max score must be at least 0")
-    @Max(value = 100,message = "Score must be at least 100")
-    @NotNull(message = "Max score is required")
-    private Integer maxScore;
 
     @NotNull(message = "Grade type id is required")
     private GradeType gradeType;
