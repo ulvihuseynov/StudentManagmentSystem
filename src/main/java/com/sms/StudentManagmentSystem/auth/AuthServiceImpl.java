@@ -60,8 +60,7 @@ public class AuthServiceImpl implements AuthService {
 
 
         Role role = roleRepository.findByRoleName(AppRole.ROLE_STUDENT).orElseThrow(() -> new ResourceNotFoundException("Role not found "));
-        user.setRole(Set.of(role));
-        user.setEnabled(true);
+        user.setRoles(Set.of(role));
         userRepository.save(user);
         return new ApiMessageResponse("User successfully created");
     }
