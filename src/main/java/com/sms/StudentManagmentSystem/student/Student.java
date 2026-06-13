@@ -1,5 +1,6 @@
 package com.sms.StudentManagmentSystem.student;
 
+import com.sms.StudentManagmentSystem.auth.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 
@@ -57,4 +58,9 @@ public class Student {
     @LastModifiedDate
     @Column(nullable = false)
     private LocalDateTime updatedAt;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id",unique = true)
+    private User user;
 }

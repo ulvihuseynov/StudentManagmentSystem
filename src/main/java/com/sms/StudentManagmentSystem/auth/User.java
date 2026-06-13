@@ -1,5 +1,7 @@
 package com.sms.StudentManagmentSystem.auth;
 
+import com.sms.StudentManagmentSystem.student.Student;
+import com.sms.StudentManagmentSystem.teacher.Teacher;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,6 +52,12 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(mappedBy = "user")
+    private Student student;
+
+    @OneToOne(mappedBy = "user")
+    private Teacher teacher;
 
     public User(String username, String email, String password) {
         this.username = username;

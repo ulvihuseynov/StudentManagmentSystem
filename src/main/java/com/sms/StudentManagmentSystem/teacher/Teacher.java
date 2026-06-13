@@ -1,5 +1,6 @@
 package com.sms.StudentManagmentSystem.teacher;
 
+import com.sms.StudentManagmentSystem.auth.User;
 import com.sms.StudentManagmentSystem.group.Group;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -62,4 +63,8 @@ public class Teacher {
 
     @OneToMany(mappedBy = "teacher")
     private List<Group> groupList=new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id",unique = true)
+    private User user;
 }

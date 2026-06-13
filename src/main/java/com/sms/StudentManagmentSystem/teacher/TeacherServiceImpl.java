@@ -1,5 +1,7 @@
 package com.sms.StudentManagmentSystem.teacher;
 
+import com.sms.StudentManagmentSystem.auth.User;
+import com.sms.StudentManagmentSystem.auth.UserRepository;
 import com.sms.StudentManagmentSystem.exception.DuplicateResourceException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
@@ -13,6 +15,7 @@ import java.util.List;
 public class TeacherServiceImpl implements TeacherService{
 
     private final TeacherRepository teacherRepository;
+    private final UserRepository userRepository;
     private final TeacherMapper teacherMapper;
 
     @Override
@@ -25,10 +28,25 @@ public class TeacherServiceImpl implements TeacherService{
         }
 
 
+
+
+        User user = new User();
+
+//        user.setTeacher(teacher);
+        user.setRoles(teacherCreateRequest.getUser().getRoles());
+        user.setStudent(teacherCreateRequest.getUser().getStudent());
+        user.setUsername(teacherCreateRequest.getFirstname());
+        user.setEmail(teacherCreateRequest.getEmail());
+        user.setPassword("pasword");
+        userRepository.save(user);
+
+        teacher.setUser(user);
         teacher.setStatus(TeacherStatus.ACTIVE);
+        Teacher savedTeacher = teacherRepository.save(teacher);
 
 
-        return teacherMapper.toResponse(teacherRepository.save(teacher));
+
+        return teacherMapper.toResponse(savedTeacher);
     }
 
     @Override

@@ -4,6 +4,10 @@ import com.sms.StudentManagmentSystem.exception.BusinessException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import com.sms.StudentManagmentSystem.security.JwtUtils;
+import com.sms.StudentManagmentSystem.student.Student;
+import com.sms.StudentManagmentSystem.student.StudentRepository;
+import com.sms.StudentManagmentSystem.teacher.Teacher;
+import com.sms.StudentManagmentSystem.teacher.TeacherRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +27,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final TeacherRepository teacherRepository;
+    private final StudentRepository studentRepository;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -69,6 +75,15 @@ public class AuthServiceImpl implements AuthService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        Teacher teacher = teacherRepository.findByFirstname(authentication.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("hfhhf"));
+
+        Student student = studentRepository.findByFirstname(authentication.getName())
+                .orElseThrow(() -> new ResourceNotFoundException("hfhhf"));
+
+        System.out.println(student.getUser());
+        System.out.println(student.getFirstname());
+        System.out.println(student.getDateOfBirth());
         if (authentication != null && authentication.getName() != null) {
 
                return authentication.getName();

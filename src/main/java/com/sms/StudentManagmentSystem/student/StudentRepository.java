@@ -15,4 +15,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     boolean existsByEmailAndStudentIdNot( String email, Long id);
 
+    Optional<Student> findByFirstname(String firstname);
 }

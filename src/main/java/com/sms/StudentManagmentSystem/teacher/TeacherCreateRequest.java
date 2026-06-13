@@ -1,8 +1,10 @@
 package com.sms.StudentManagmentSystem.teacher;
 
 
+import com.sms.StudentManagmentSystem.auth.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +36,8 @@ public class TeacherCreateRequest {
     @NotBlank(message = "Specialization is required")
     private String specialization;
 
+    @NotNull(message = "User is required")
+    private User user;
 
 
 
