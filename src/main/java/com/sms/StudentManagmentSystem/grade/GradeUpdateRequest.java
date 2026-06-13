@@ -24,10 +24,6 @@ public class GradeUpdateRequest {
     @NotNull(message = "Score is required")
     private Integer score;
 
-
-    @NotNull(message = "Grade type id is required")
-    private GradeType gradeType;
-
     @NotNull(message = "Grade date is required")
     private LocalDate gradeDate;
 

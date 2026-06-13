@@ -6,6 +6,7 @@ import com.sms.StudentManagmentSystem.enrollment.EnrollmentRepository;
 import com.sms.StudentManagmentSystem.enrollment.EnrollmentStatus;
 import com.sms.StudentManagmentSystem.exception.BusinessException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
+import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import com.sms.StudentManagmentSystem.student.Student;
 import com.sms.StudentManagmentSystem.student.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -80,8 +81,6 @@ public class GradeServiceImpl implements GradeService {
                         new ResourceNotFoundException("Enrollment not found with ID: " + gradeUpdateRequest.getEnrollmentId()));
 
 
-        validateScore(gradeUpdateRequest.getGradeType(), gradeUpdateRequest.getScore());
-
         if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
             throw new BusinessException("Grade can only be added to active enrollment");
         }
@@ -89,10 +88,7 @@ public class GradeServiceImpl implements GradeService {
         gradeFromDb.setDescription(gradeUpdateRequest.getDescription());
         gradeFromDb.setTitle(gradeUpdateRequest.getTitle());
         gradeFromDb.setScore(gradeUpdateRequest.getScore());
-        gradeFromDb.setMaxScore(gradeUpdateRequest.getGradeType().getMaxScore());
         gradeFromDb.setGradeDate(gradeUpdateRequest.getGradeDate());
-        gradeFromDb.setGradeType(gradeUpdateRequest.getGradeType());
-        gradeFromDb.setEnrollment(enrollment);
         return gradeMapper.toResponse(gradeRepository.save(gradeFromDb));
     }
 
@@ -115,7 +111,7 @@ public class GradeServiceImpl implements GradeService {
         gradeMaxScoreResponse.setEnrollmentId(enrollmentId);
         gradeMaxScoreResponse.setTotalScore(totalScore);
         gradeMaxScoreResponse.setTotalMaxScore(totalMaxScore);
-        gradeMaxScoreResponse.setPercentage((double) totalScore / totalMaxScore);
+        gradeMaxScoreResponse.setPercentage(((double) totalScore / totalMaxScore)*100);
 
         List<GradeDetailResponse> responseList = grades.stream().map(grade -> {
             GradeDetailResponse gradeDetailResponse = new GradeDetailResponse();
@@ -127,6 +123,14 @@ public class GradeServiceImpl implements GradeService {
         }).toList();
         gradeMaxScoreResponse.setGrades(responseList);
         return gradeMaxScoreResponse;
+    }
+
+    @Override
+    public ApiMessageResponse deleteGrade(Long id) {
+        Grade grade = gradeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Grade not found with ID " + id));
+        gradeRepository.delete(grade);
+        return new ApiMessageResponse("Grade successfully deleted with ID "+id);
     }
 
     private void validateScore(GradeType gradeType, Integer score) {

@@ -1,6 +1,7 @@
 package com.sms.StudentManagmentSystem.grade;
 
 
+import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,15 @@ public class GradeController {
         return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
     }
 
-    @GetMapping("/enrollment/{enrollmentId}/summary")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ApiMessageResponse> deleteGrade(@PathVariable Long id) {
+
+        ApiMessageResponse gradeResponse = gradeService.deleteGrade(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
+    }
+
+        @GetMapping("/enrollment/{enrollmentId}/summary")
     public ResponseEntity<GradeMaxScoreResponse> getGradeByEnrollmentIdSummary(@PathVariable Long enrollmentId){
 
         GradeMaxScoreResponse gradeResponse= gradeService.getGradeByEnrollmentIdSummary(enrollmentId);
