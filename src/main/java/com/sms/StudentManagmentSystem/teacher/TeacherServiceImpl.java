@@ -102,7 +102,6 @@ public class TeacherServiceImpl implements TeacherService {
     public ApiMessageResponse deactivateTeacher(Long id) {
 
         Teacher teacher = getTeacher(id);
-
         teacher.setStatus(TeacherStatus.INACTIVE);
 
         teacherRepository.save(teacher);

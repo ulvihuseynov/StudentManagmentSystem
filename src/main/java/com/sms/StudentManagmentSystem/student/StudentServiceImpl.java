@@ -21,6 +21,7 @@ public class StudentServiceImpl implements StudentService {
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     private final StudentMapper studentMapper;
+    private final StudentAccessService studentAccessService;
 
     @Override
     public StudentResponse createStudent(StudentCreateRequest studentCreateRequest) {
@@ -72,6 +73,8 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponse getStudentById(Long id) {
+
+        studentAccessService.checkStudentCanAccessEnrollment();
         Student student = getStudent(id);
         return studentMapper.toResponse(student);
     }
