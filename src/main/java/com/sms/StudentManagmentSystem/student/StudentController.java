@@ -63,4 +63,13 @@ public class StudentController {
 
         return new ResponseEntity<>(status, HttpStatus.OK);
     }
+
+
+    @GetMapping("/me")
+    public ResponseEntity<StudentResponse> getStudentProfile(){
+
+        StudentResponse studentResponse= studentService.getStudentCurrentProfile();
+
+        return new ResponseEntity<>(studentResponse, HttpStatus.OK);
+    }
 }

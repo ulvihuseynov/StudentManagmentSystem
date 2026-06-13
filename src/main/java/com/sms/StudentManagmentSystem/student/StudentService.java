@@ -17,4 +17,6 @@ public interface StudentService {
     StudentResponse updateStudentStatus(StudentStatusRequest studentStatusRequest, Long id);
 
     ApiMessageResponse deactivateStudent(Long id);
+
+    StudentResponse getStudentCurrentProfile();
 }

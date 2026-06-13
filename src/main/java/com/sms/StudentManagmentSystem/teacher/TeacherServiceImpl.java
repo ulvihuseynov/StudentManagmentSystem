@@ -5,6 +5,7 @@ import com.sms.StudentManagmentSystem.exception.DuplicateResourceException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +31,13 @@ public class TeacherServiceImpl implements TeacherService {
             throw new DuplicateResourceException("Teacher is already exist with email: " + teacherCreateRequest.getEmail());
         }
 
+        if (userRepository.existsByEmail(teacherCreateRequest.getEmail())){
+            throw new DuplicateResourceException("User is already exists with email "+teacherCreateRequest.getEmail());
+        }
+
+        if (userRepository.existsByUsername(teacherCreateRequest.getUsername())){
+            throw new DuplicateResourceException("User is already exists with username "+teacherCreateRequest.getUsername());
+        }
         Role role = roleRepository.findByRoleName(AppRole.ROLE_TEACHER)
                 .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
 
@@ -100,6 +108,15 @@ public class TeacherServiceImpl implements TeacherService {
         teacherRepository.save(teacher);
 
         return new ApiMessageResponse("Teacher deactivated successfully");
+    }
+
+    @Override
+    public TeacherResponse getTeacherCurrentProfile() {
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Teacher teacher = teacherRepository.findByUserUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("Teacher profile not found for current user"));
+        return  teacherMapper.toResponse(teacher);
     }
 
 

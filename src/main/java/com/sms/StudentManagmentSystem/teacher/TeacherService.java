@@ -17,4 +17,6 @@ public interface TeacherService {
     TeacherResponse updateStatus(@Valid TeacherStatusRequest teacherStatusRequest, Long id);
 
     ApiMessageResponse deactivateTeacher(Long id);
+
+    TeacherResponse getTeacherCurrentProfile();
 }

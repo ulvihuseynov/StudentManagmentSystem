@@ -1,6 +1,7 @@
 package com.sms.StudentManagmentSystem.teacher;
 
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
+import com.sms.StudentManagmentSystem.student.Student;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,5 +60,14 @@ public class TeacherController {
 
         ApiMessageResponse messageResponse = teacherService.deactivateTeacher(id);
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
+
+    @GetMapping("/me")
+    public ResponseEntity<TeacherResponse> getTeacherCurrentProfile(){
+
+        TeacherResponse teacherResponse= teacherService.getTeacherCurrentProfile();
+
+        return new ResponseEntity<>(teacherResponse, HttpStatus.OK);
     }
 }
