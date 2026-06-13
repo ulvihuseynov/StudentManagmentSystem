@@ -66,8 +66,12 @@ public class AttendanceServiceImpl implements AttendanceService{
 
         Enrollment enrollment = attendanceFromDb.getEnrollment();
 
-        if (attendanceRepository.existsByEnrollmentEnrollmentIdAndLessonDate(enrollment.getEnrollmentId(),attendanceUpdateRequest.getLessonDate())){
-            throw new BusinessException("Attendance can only be updated for active enrollment");
+        if (attendanceRepository.existsByEnrollmentEnrollmentIdAndLessonDateAndAttendanceIdNot(
+                enrollment.getEnrollmentId(),
+                attendanceUpdateRequest.getLessonDate(),
+                attendanceId
+        )) {
+            throw new BusinessException("Attendance already exists for this lesson date");
         }
         attendanceFromDb.setNote(attendanceUpdateRequest.getNote());
         attendanceFromDb.setStatus(attendanceUpdateRequest.getStatus());

@@ -18,4 +18,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance,Long> {
 
 
     boolean existsByEnrollmentEnrollmentIdAndLessonDate(@NotNull(message = "EnrollmentId is required") Long enrollmentId, @NotNull(message = "Lesson date is required") LocalDate lessonDate);
+
+    boolean existsByEnrollmentEnrollmentIdAndLessonDateAndAttendanceIdNot(Long enrollmentId, @NotNull(message = "Lesson date is required") LocalDate lessonDate, Long attendanceId);
 }
