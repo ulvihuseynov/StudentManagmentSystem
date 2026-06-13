@@ -76,10 +76,10 @@ public class GradeServiceImpl implements GradeService {
     public GradeResponse updateGrade(GradeUpdateRequest gradeUpdateRequest, Long id) {
         Grade gradeFromDb = gradeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Grade not found with Id " + id));
-        Enrollment enrollment = enrollmentRepository.findById(gradeUpdateRequest.getEnrollmentId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Enrollment not found with ID: " + gradeUpdateRequest.getEnrollmentId()));
 
+        Enrollment enrollment = gradeFromDb.getEnrollment();
+
+        validateScore(gradeFromDb.getGradeType(), gradeUpdateRequest.getScore());
 
         if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
             throw new BusinessException("Grade can only be added to active enrollment");

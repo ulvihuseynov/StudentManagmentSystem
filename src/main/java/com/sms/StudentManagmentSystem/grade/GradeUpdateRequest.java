@@ -30,7 +30,5 @@ public class GradeUpdateRequest {
     @NotBlank(message = "Description is required")
     private String description;
 
-    @NotNull(message = "Enrollment id is required")
-    private Long enrollmentId;
     
 }
