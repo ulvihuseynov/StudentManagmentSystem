@@ -24,6 +24,4 @@ public class AttendanceUpdateRequest {
     @NotNull(message = "Note is required")
     private String note;
 
-    @NotNull(message = "EnrollmentId is required")
-    private Long enrollmentId;
 }

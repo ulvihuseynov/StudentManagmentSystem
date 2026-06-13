@@ -34,7 +34,7 @@ public class Attendance {
     @Enumerated(EnumType.STRING)
     private AttendanceStatus status;
 
-    @Column(nullable = false)
+
     private String note;
 
     @Column(nullable = false)

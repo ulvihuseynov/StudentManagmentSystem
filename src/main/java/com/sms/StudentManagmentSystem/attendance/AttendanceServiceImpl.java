@@ -2,6 +2,8 @@ package com.sms.StudentManagmentSystem.attendance;
 
 import com.sms.StudentManagmentSystem.enrollment.Enrollment;
 import com.sms.StudentManagmentSystem.enrollment.EnrollmentRepository;
+import com.sms.StudentManagmentSystem.enrollment.EnrollmentStatus;
+import com.sms.StudentManagmentSystem.exception.BusinessException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,15 @@ public class AttendanceServiceImpl implements AttendanceService{
         Enrollment enrollment = enrollmentRepository.findById(attendanceCreateRequest.getEnrollmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID " + attendanceCreateRequest.getEnrollmentId()));
 
+        if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
+            throw new BusinessException("Attendance can only be added to active enrollment");
+        }
 
+        if (attendanceRepository.existsByEnrollmentEnrollmentIdAndLessonDate(attendanceCreateRequest.getEnrollmentId(),
+                attendanceCreateRequest.getLessonDate())){
+            throw new BusinessException("Attendance already exists for this lesson date");
+
+        }
 
         attendance.setEnrollment(enrollment);
 
@@ -54,13 +64,14 @@ public class AttendanceServiceImpl implements AttendanceService{
         Attendance attendanceFromDb = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Attendance not found with ID " + attendanceId));
 
-        Enrollment enrollment = enrollmentRepository.findById(attendanceUpdateRequest.getEnrollmentId())
-                .orElseThrow(() -> new ResourceNotFoundException("Attendance not found with ID " + attendanceId));
+        Enrollment enrollment = attendanceFromDb.getEnrollment();
 
+        if (attendanceRepository.existsByEnrollmentEnrollmentIdAndLessonDate(enrollment.getEnrollmentId(),attendanceUpdateRequest.getLessonDate())){
+            throw new BusinessException("Attendance can only be updated for active enrollment");
+        }
         attendanceFromDb.setNote(attendanceUpdateRequest.getNote());
         attendanceFromDb.setStatus(attendanceUpdateRequest.getStatus());
         attendanceFromDb.setLessonDate(attendanceUpdateRequest.getLessonDate());
-        attendanceFromDb.setEnrollment(enrollment);
 
 
         return attendanceMapper.toResponse(attendanceRepository.save(attendanceFromDb));
