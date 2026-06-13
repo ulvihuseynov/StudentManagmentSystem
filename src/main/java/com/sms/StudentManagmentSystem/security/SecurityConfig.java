@@ -64,9 +64,13 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/auth/me").authenticated()
                                 .requestMatchers(HttpMethod.GET, "/api/courses/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
                                 .requestMatchers(HttpMethod.GET, "/api/groups/**").hasAnyRole("ADMIN", "TEACHER", "STUDENT")
+                                .requestMatchers("/api/grades/**").hasAnyRole("ADMIN","TEACHER")
+                                .requestMatchers("/api/attendance/**").hasAnyRole("ADMIN", "TEACHER")
                                 .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
 
+                                .requestMatchers(HttpMethod.GET,"/api/students/me").hasAnyRole("ADMIN","STUDENT")
+                                .requestMatchers(HttpMethod.GET,"/api/teachers/me").hasAnyRole("ADMIN","TEACHER")
                                 .requestMatchers(HttpMethod.GET, "/api/students/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/teachers/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.GET, "/api/enrollments/**").hasRole("ADMIN")
@@ -75,9 +79,8 @@ public class SecurityConfig {
                                 .requestMatchers("/api/teachers/**").hasRole("ADMIN")
                                 .requestMatchers("/api/courses/**").hasRole("ADMIN")
                                 .requestMatchers("/api/groups/**").hasRole("ADMIN")
-                                .requestMatchers("/api/enrollments/**").hasRole("ADMIN")
-                                .requestMatchers("/api/grades/**").hasAnyRole("ADMIN","TEACHER")
-                                .requestMatchers("/api/attendance/**").hasAnyRole("ADMIN", "TEACHER").
+                                .requestMatchers("/api/enrollments/**").hasRole("ADMIN").
+
                                 anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
 
