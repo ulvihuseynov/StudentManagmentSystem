@@ -1,18 +1,24 @@
 package com.sms.StudentManagmentSystem.student;
 
+import com.sms.StudentManagmentSystem.auth.*;
 import com.sms.StudentManagmentSystem.exception.DuplicateResourceException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final StudentMapper studentMapper;
 
     @Override
@@ -25,10 +31,23 @@ public class StudentServiceImpl implements StudentService {
             throw new DuplicateResourceException("Student is already exist with email: " + student.getEmail());
 
         }
+        Role role = roleRepository.findByRoleName(AppRole.ROLE_STUDENT)
+                .orElseThrow(()->new ResourceNotFoundException("Role not found "));
+        User user = new User();
 
+        user.setPassword(passwordEncoder.encode(studentCreateRequest.getPassword()));
+        user.setUsername(studentCreateRequest.getUsername());
+        user.setRoles(Set.of(role));
+        user.setEnabled(true);
+        user.setEmail(studentCreateRequest.getEmail());
+        User savedUser = userRepository.save(user);
+
+        student.setUser(savedUser);
         student.setStatus(StudentStatus.ACTIVE);
+        Student savedStudent = studentRepository.save(student);
 
-        return studentMapper.toResponse(studentRepository.save(student));
+
+        return studentMapper.toResponse(savedStudent);
     }
 
     @Override

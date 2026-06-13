@@ -75,15 +75,6 @@ public class AuthServiceImpl implements AuthService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        Teacher teacher = teacherRepository.findByFirstname(authentication.getName())
-                .orElseThrow(() -> new ResourceNotFoundException("hfhhf"));
-
-        Student student = studentRepository.findByFirstname(authentication.getName())
-                .orElseThrow(() -> new ResourceNotFoundException("hfhhf"));
-
-        System.out.println(student.getUser());
-        System.out.println(student.getFirstname());
-        System.out.println(student.getDateOfBirth());
         if (authentication != null && authentication.getName() != null) {
 
                return authentication.getName();

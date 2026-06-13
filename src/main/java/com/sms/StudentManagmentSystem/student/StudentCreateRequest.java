@@ -38,5 +38,9 @@ public class StudentCreateRequest {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
+    @NotBlank(message = "Password is required")
+    private String password;
 
+    @NotBlank(message = "Username is required")
+    private String username;
 }

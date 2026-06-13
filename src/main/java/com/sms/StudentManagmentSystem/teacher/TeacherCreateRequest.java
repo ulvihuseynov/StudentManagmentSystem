@@ -36,9 +36,13 @@ public class TeacherCreateRequest {
     @NotBlank(message = "Specialization is required")
     private String specialization;
 
-    @NotNull(message = "User is required")
-    private User user;
 
+
+    @NotBlank(message = "Password is required")
+    private String password;
+
+    @NotBlank(message = "Username is required")
+    private String username;
 
 
 }

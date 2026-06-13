@@ -1,21 +1,24 @@
 package com.sms.StudentManagmentSystem.teacher;
 
-import com.sms.StudentManagmentSystem.auth.User;
-import com.sms.StudentManagmentSystem.auth.UserRepository;
+import com.sms.StudentManagmentSystem.auth.*;
 import com.sms.StudentManagmentSystem.exception.DuplicateResourceException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
-public class TeacherServiceImpl implements TeacherService{
+public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final TeacherMapper teacherMapper;
 
     @Override
@@ -23,27 +26,26 @@ public class TeacherServiceImpl implements TeacherService{
 
         Teacher teacher = teacherMapper.toEntity(teacherCreateRequest);
 
-        if (teacherRepository.existsByEmail(teacher.getEmail())){
+        if (teacherRepository.existsByEmail(teacher.getEmail())) {
             throw new DuplicateResourceException("Teacher is already exist with email: " + teacherCreateRequest.getEmail());
         }
 
-
+        Role role = roleRepository.findByRoleName(AppRole.ROLE_TEACHER)
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found"));
 
 
         User user = new User();
 
-//        user.setTeacher(teacher);
-        user.setRoles(teacherCreateRequest.getUser().getRoles());
-        user.setStudent(teacherCreateRequest.getUser().getStudent());
-        user.setUsername(teacherCreateRequest.getFirstname());
+        user.setPassword(passwordEncoder.encode(teacherCreateRequest.getPassword()));
+        user.setUsername(teacherCreateRequest.getUsername());
+        user.setRoles(Set.of(role));
+        user.setEnabled(true);
         user.setEmail(teacherCreateRequest.getEmail());
-        user.setPassword("pasword");
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        teacher.setUser(user);
+        teacher.setUser(savedUser);
         teacher.setStatus(TeacherStatus.ACTIVE);
         Teacher savedTeacher = teacherRepository.save(teacher);
-
 
 
         return teacherMapper.toResponse(savedTeacher);
@@ -66,7 +68,7 @@ public class TeacherServiceImpl implements TeacherService{
     public TeacherResponse updateTeacher(TeacherUpdateRequest teacherUpdateRequest, Long id) {
 
         Teacher teacherFromDb = getTeacher(id);
-        if (teacherRepository.existsByEmailAndTeacherIdNot(teacherUpdateRequest.getEmail(),id)){
+        if (teacherRepository.existsByEmailAndTeacherIdNot(teacherUpdateRequest.getEmail(), id)) {
             throw new DuplicateResourceException("Email already used by another teacher: " + teacherUpdateRequest.getEmail());
         }
         teacherFromDb.setFirstname(teacherUpdateRequest.getFirstname());
@@ -101,7 +103,7 @@ public class TeacherServiceImpl implements TeacherService{
     }
 
 
-    private Teacher getTeacher(Long id){
+    private Teacher getTeacher(Long id) {
 
         return teacherRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Teacher not found with ID: " + id));
