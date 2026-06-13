@@ -13,5 +13,5 @@ public interface GradeService {
 
     GradeResponse updateGrade(@Valid GradeUpdateRequest gradeUpdateRequest, Long id);
 
-//    List<GradeResponse> getGradeByEnrollmentIdSummary(Long enrollmentId);
+  GradeMaxScoreResponse getGradeByEnrollmentIdSummary(Long enrollmentId);
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GradeServiceImpl implements GradeService{
+public class GradeServiceImpl implements GradeService {
 
     private final GradeRepository gradeRepository;
     private final EnrollmentRepository enrollmentRepository;
@@ -31,18 +31,18 @@ public class GradeServiceImpl implements GradeService{
                         new ResourceNotFoundException("Enrollment not found with ID: " + gradeCreateRequest.getEnrollmentId()));
 
 
-        validateScore(grade.getGradeType(),grade.getScore());
+        validateScore(grade.getGradeType(), grade.getScore());
 
 
         if (
-        gradeRepository.existsByEnrollmentEnrollmentIdAndGradeType(
-                gradeCreateRequest.getEnrollmentId(),
-                grade.getGradeType())
-        ){
+                gradeRepository.existsByEnrollmentEnrollmentIdAndGradeType(
+                        gradeCreateRequest.getEnrollmentId(),
+                        grade.getGradeType())
+        ) {
             throw new BusinessException("Grade already exists for this type");
         }
 
-        if (enrollment.getStatus() != EnrollmentStatus.ACTIVE){
+        if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
             throw new BusinessException("Grade can only be added to active enrollment");
         }
         grade.setEnrollment(enrollment);
@@ -51,9 +51,8 @@ public class GradeServiceImpl implements GradeService{
     }
 
 
-
     @Override
-    public  List<GradeResponse> getGradeByStudentId(Long studentId) {
+    public List<GradeResponse> getGradeByStudentId(Long studentId) {
 
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
@@ -64,26 +63,26 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public  List<GradeResponse> getGradeByEnrollmentId(Long enrollmentId) {
+    public List<GradeResponse> getGradeByEnrollmentId(Long enrollmentId) {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + enrollmentId));
 
-       List<Grade> grades=gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
+        List<Grade> grades = gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
         return grades.stream().map(gradeMapper::toResponse).toList();
     }
 
     @Override
     public GradeResponse updateGrade(GradeUpdateRequest gradeUpdateRequest, Long id) {
-        Grade gradeFromDb=gradeRepository.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("Grade not found with Id "+id));
+        Grade gradeFromDb = gradeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Grade not found with Id " + id));
         Enrollment enrollment = enrollmentRepository.findById(gradeUpdateRequest.getEnrollmentId())
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Enrollment not found with ID: " + gradeUpdateRequest.getEnrollmentId()));
 
 
-        validateScore(gradeUpdateRequest.getGradeType(),gradeUpdateRequest.getScore());
+        validateScore(gradeUpdateRequest.getGradeType(), gradeUpdateRequest.getScore());
 
-        if (enrollment.getStatus() != EnrollmentStatus.ACTIVE){
+        if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
             throw new BusinessException("Grade can only be added to active enrollment");
         }
 
@@ -97,21 +96,42 @@ public class GradeServiceImpl implements GradeService{
         return gradeMapper.toResponse(gradeRepository.save(gradeFromDb));
     }
 
-//    @Override
-//    public List<GradeResponse> getGradeByEnrollmentIdSummary(Long enrollmentId) {
-//        GradeMaxScoreResponse gradeMaxScoreResponse=new GradeMaxScoreResponse();
-//        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + enrollmentId));
-//
-//        List<Grade> grades=gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
-//grades.stream().map(grade -> grade.getGradeType());
-//      gradeMaxScoreResponse.setTotalScore();
-//        return List.of();
-//    }
+    @Override
+    public GradeMaxScoreResponse getGradeByEnrollmentIdSummary(Long enrollmentId) {
+
+        enrollmentRepository.findById(enrollmentId)
+                .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + enrollmentId));
+        int totalMaxScore = GradeType.HOMEWORK.getMaxScore() + GradeType.QUIZ.getMaxScore() + GradeType.PROJECT.getMaxScore()
+                + GradeType.FINAL_EXAM.getMaxScore() + GradeType.PARTICIPATION.getMaxScore() + GradeType.MIDTERM.getMaxScore();
+
+
+        List<Grade> grades = gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
+
+
+        Integer totalScore = grades.stream().mapToInt(Grade::getScore).sum();
+
+        GradeMaxScoreResponse gradeMaxScoreResponse = new GradeMaxScoreResponse();
+
+        gradeMaxScoreResponse.setEnrollmentId(enrollmentId);
+        gradeMaxScoreResponse.setTotalScore(totalScore);
+        gradeMaxScoreResponse.setTotalMaxScore(totalMaxScore);
+        gradeMaxScoreResponse.setPercentage((double) totalScore / totalMaxScore);
+
+        List<GradeDetailResponse> responseList = grades.stream().map(grade -> {
+            GradeDetailResponse gradeDetailResponse = new GradeDetailResponse();
+
+            gradeDetailResponse.setGradeType(grade.getGradeType());
+            gradeDetailResponse.setScore(grade.getScore());
+            gradeDetailResponse.setMaxScore(grade.getMaxScore());
+            return gradeDetailResponse;
+        }).toList();
+        gradeMaxScoreResponse.setGrades(responseList);
+        return gradeMaxScoreResponse;
+    }
 
     private void validateScore(GradeType gradeType, Integer score) {
 
-        if (score>gradeType.getMaxScore()){
+        if (score > gradeType.getMaxScore()) {
             throw new BusinessException(
                     "Score cannot be greater than max score for " + gradeType +
                             ". Max score is " + gradeType.getMaxScore()

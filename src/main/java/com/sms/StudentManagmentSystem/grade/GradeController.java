@@ -49,11 +49,11 @@ public class GradeController {
         return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
     }
 
-//    @GetMapping("/enrollment/{enrollmentId}/summary")
-//    public ResponseEntity<List<GradeResponse>> getGradeByEnrollmentIdSummary(@PathVariable Long enrollmentId){
-//
-//        List<GradeResponse> gradeResponse= gradeService.getGradeByEnrollmentIdSummary(enrollmentId);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
-//    }
+    @GetMapping("/enrollment/{enrollmentId}/summary")
+    public ResponseEntity<GradeMaxScoreResponse> getGradeByEnrollmentIdSummary(@PathVariable Long enrollmentId){
+
+        GradeMaxScoreResponse gradeResponse= gradeService.getGradeByEnrollmentIdSummary(enrollmentId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
+    }
 }

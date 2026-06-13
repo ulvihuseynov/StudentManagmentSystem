@@ -18,5 +18,5 @@ public class GradeMaxScoreResponse {
     private Integer totalScore;
     private Integer totalMaxScore;
     private double percentage;
-    List<GradeType> gradeTypeList = new ArrayList<>();
+    private List<GradeDetailResponse> grades = new ArrayList<>();
 }
