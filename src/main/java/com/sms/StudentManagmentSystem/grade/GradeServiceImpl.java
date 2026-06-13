@@ -82,7 +82,7 @@ public class GradeServiceImpl implements GradeService {
         validateScore(gradeFromDb.getGradeType(), gradeUpdateRequest.getScore());
 
         if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
-            throw new BusinessException("Grade can only be added to active enrollment");
+            throw new BusinessException("Grade can only be updated for active enrollment");
         }
 
         gradeFromDb.setDescription(gradeUpdateRequest.getDescription());
@@ -97,21 +97,19 @@ public class GradeServiceImpl implements GradeService {
 
         enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + enrollmentId));
-        int totalMaxScore = GradeType.HOMEWORK.getMaxScore() + GradeType.QUIZ.getMaxScore() + GradeType.PROJECT.getMaxScore()
-                + GradeType.FINAL_EXAM.getMaxScore() + GradeType.PARTICIPATION.getMaxScore() + GradeType.MIDTERM.getMaxScore();
 
 
         List<Grade> grades = gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
+        int totalMaxScore = grades.stream().mapToInt(grade -> grade.getMaxScore()).sum();
 
-
-        Integer totalScore = grades.stream().mapToInt(Grade::getScore).sum();
+        int totalScore = grades.stream().mapToInt(Grade::getScore).sum();
 
         GradeMaxScoreResponse gradeMaxScoreResponse = new GradeMaxScoreResponse();
 
         gradeMaxScoreResponse.setEnrollmentId(enrollmentId);
         gradeMaxScoreResponse.setTotalScore(totalScore);
         gradeMaxScoreResponse.setTotalMaxScore(totalMaxScore);
-        gradeMaxScoreResponse.setPercentage(((double) totalScore / totalMaxScore)*100);
+        gradeMaxScoreResponse.setPercentage(((double) totalScore / totalMaxScore) * 100);
 
         List<GradeDetailResponse> responseList = grades.stream().map(grade -> {
             GradeDetailResponse gradeDetailResponse = new GradeDetailResponse();
@@ -130,7 +128,7 @@ public class GradeServiceImpl implements GradeService {
         Grade grade = gradeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Grade not found with ID " + id));
         gradeRepository.delete(grade);
-        return new ApiMessageResponse("Grade successfully deleted with ID "+id);
+        return new ApiMessageResponse("Grade successfully deleted with ID " + id);
     }
 
     private void validateScore(GradeType gradeType, Integer score) {
