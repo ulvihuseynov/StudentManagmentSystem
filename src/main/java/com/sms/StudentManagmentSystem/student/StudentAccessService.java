@@ -19,6 +19,9 @@ public class StudentAccessService {
 
     public void checkStudentCanAccessEnrollment(Enrollment enrollment) {
 
+        if (isAdmin()){
+            return;
+        }
         Student currentStudent = getCurrentTeacher();
         Long currentStudentId = currentStudent.getStudentId();
         Long studentId = enrollment.getStudent().getStudentId();

@@ -18,6 +18,10 @@ public class TeacherAccessService {
 
     public void checkTeacherCanAccessEnrollment(Enrollment enrollment) {
 
+        if (isAdmin()) {
+            return;
+        }
+
         Teacher currentTeacher = getCurrentTeacher();
         Long currentTeacherId = currentTeacher.getTeacherId();
         Long teacherId = enrollment.getGroup().getTeacher().getTeacherId();
@@ -36,9 +40,9 @@ public class TeacherAccessService {
                 orElseThrow(() -> new ResourceNotFoundException("Teacher profile not found for current user"));
     }
 
-    private boolean isAdmin(){
+    private boolean isAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication==null){
+        if (authentication == null) {
             return false;
         }
         return authentication.getAuthorities().stream().anyMatch(

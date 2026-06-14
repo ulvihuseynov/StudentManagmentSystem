@@ -31,6 +31,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         Enrollment enrollment = enrollmentRepository.findById(attendanceCreateRequest.getEnrollmentId())
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID " + attendanceCreateRequest.getEnrollmentId()));
 
+        teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
         if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
             throw new BusinessException("Attendance can only be added to active enrollment");
         }
@@ -53,7 +54,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<Attendance> attendances = attendanceRepository.findByEnrollmentStudentStudentId(studentId);
 
         attendances.forEach(attendance -> teacherAccessService.checkTeacherCanAccessEnrollment(attendance.getEnrollment()));
-        attendances.forEach(attendance -> studentAccessService.checkStudentCanAccessEnrollment(attendance.getEnrollment()));
 
 
         return attendances.stream().map(attendanceMapper::toResponse)
@@ -65,7 +65,6 @@ public class AttendanceServiceImpl implements AttendanceService {
         List<Attendance> attendances = attendanceRepository.findByEnrollmentEnrollmentId(enrollmentId);
 
         attendances.forEach(attendance -> teacherAccessService.checkTeacherCanAccessEnrollment(attendance.getEnrollment()));
-        attendances.forEach(attendance -> studentAccessService.checkStudentCanAccessEnrollment(attendance.getEnrollment()));
 
 
         return attendances.stream().map(attendanceMapper::toResponse)
@@ -105,6 +104,7 @@ public class AttendanceServiceImpl implements AttendanceService {
         Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Attendance not found with ID " + attendanceId));
 
+        teacherAccessService.checkTeacherCanAccessEnrollment(attendance.getEnrollment());
         attendanceRepository.delete(attendance);
         return new ApiMessageResponse("Attendance deleted successfully with ID " + attendanceId);
     }

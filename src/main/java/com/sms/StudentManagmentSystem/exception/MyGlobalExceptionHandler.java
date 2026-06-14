@@ -57,11 +57,11 @@ public class MyGlobalExceptionHandler {
     public ResponseEntity<ApiErrorResponse> handleForbiddenException(ForbiddenException ex) {
 
         ApiErrorResponse errorResponse = new ApiErrorResponse(
-                HttpStatus.CONFLICT.value(),
+                HttpStatus.FORBIDDEN.value(),
                 ex.getMessage()
         );
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+        return new ResponseEntity<>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

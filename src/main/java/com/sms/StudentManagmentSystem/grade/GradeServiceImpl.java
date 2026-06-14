@@ -64,7 +64,6 @@ public class GradeServiceImpl implements GradeService {
 
         List<Grade> grades = gradeRepository.findByEnrollmentStudentStudentId(studentId);
         grades.forEach(grade -> teacherAccessService.checkTeacherCanAccessEnrollment(grade.getEnrollment()));
-        grades.forEach(grade -> studentAccessService.checkStudentCanAccessEnrollment(grade.getEnrollment()));
 
         return grades.stream().map(gradeMapper::toResponse).toList();
     }
@@ -75,7 +74,6 @@ public class GradeServiceImpl implements GradeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + enrollmentId));
 
         teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
-        studentAccessService.checkStudentCanAccessEnrollment(enrollment);
         List<Grade> grades = gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
         return grades.stream().map(gradeMapper::toResponse).toList();
     }
@@ -109,7 +107,6 @@ public class GradeServiceImpl implements GradeService {
 
 
         teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
-        studentAccessService.checkStudentCanAccessEnrollment(enrollment);
 
         List<Grade> grades = gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
         int totalMaxScore = grades.stream().mapToInt(grade -> grade.getMaxScore()).sum();
@@ -139,6 +136,8 @@ public class GradeServiceImpl implements GradeService {
     public ApiMessageResponse deleteGrade(Long id) {
         Grade grade = gradeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Grade not found with ID " + id));
+
+        teacherAccessService.checkTeacherCanAccessEnrollment(grade.getEnrollment());
         gradeRepository.delete(grade);
         return new ApiMessageResponse("Grade successfully deleted with ID " + id);
     }

@@ -29,6 +29,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         Enrollment enrollment = new Enrollment();
 
+
         Group group = groupRepository.findById(enrollmentCreateRequest.getGroupId()).orElseThrow(() -> new ResourceNotFoundException("Group not found with ID: " + enrollmentCreateRequest.getGroupId()));
 
         Student student = studentRepository.findById(enrollmentCreateRequest.getStudentId()).orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + enrollmentCreateRequest.getStudentId()));
