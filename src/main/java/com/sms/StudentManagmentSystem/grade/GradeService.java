@@ -17,4 +17,8 @@ public interface GradeService {
   GradeMaxScoreResponse getGradeByEnrollmentIdSummary(Long enrollmentId);
 
     ApiMessageResponse deleteGrade(Long id);
+
+    List<GradeResponse> getMyGrades();
 }
+
+

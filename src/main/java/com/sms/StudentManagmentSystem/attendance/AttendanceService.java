@@ -15,4 +15,6 @@ public interface AttendanceService {
     AttendanceResponse updateAttendance(@Valid AttendanceUpdateRequest attendanceUpdateRequest, Long attendanceId);
 
     ApiMessageResponse deleteAttendance(Long attendanceId);
+
+    List<AttendanceResponse> getMyGAttendances();
 }

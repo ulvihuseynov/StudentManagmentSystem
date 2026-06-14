@@ -65,4 +65,13 @@ public class GradeController {
 
         return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
     }
+
+
+    @GetMapping("/me")
+    public ResponseEntity<List<GradeResponse>> getMyGrades() {
+
+        List<GradeResponse> gradeResponse = gradeService.getMyGrades();
+
+        return ResponseEntity.status(HttpStatus.OK).body(gradeResponse);
+    }
 }

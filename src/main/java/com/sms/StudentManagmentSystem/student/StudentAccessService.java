@@ -30,7 +30,7 @@ public class StudentAccessService {
         }
     }
 
-    private Student getCurrentStudent() {
+    public Student getCurrentStudent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         if (authentication == null || username == null) {

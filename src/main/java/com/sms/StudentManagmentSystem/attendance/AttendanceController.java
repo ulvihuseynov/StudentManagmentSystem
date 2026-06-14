@@ -56,4 +56,13 @@ public class AttendanceController {
 
         return new ResponseEntity<>(attendanceResponse, HttpStatus.OK);
     }
+
+
+    @GetMapping("/me")
+    public ResponseEntity<List<AttendanceResponse>> getMyGAttendances() {
+
+        List<AttendanceResponse> attendanceResponses = attendanceService.getMyGAttendances();
+
+        return ResponseEntity.status(HttpStatus.OK).body(attendanceResponses);
+    }
 }

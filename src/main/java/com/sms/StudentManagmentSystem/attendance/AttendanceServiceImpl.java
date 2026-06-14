@@ -6,6 +6,7 @@ import com.sms.StudentManagmentSystem.enrollment.EnrollmentStatus;
 import com.sms.StudentManagmentSystem.exception.BusinessException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
+import com.sms.StudentManagmentSystem.student.Student;
 import com.sms.StudentManagmentSystem.student.StudentAccessService;
 import com.sms.StudentManagmentSystem.teacher.TeacherAccessService;
 import lombok.RequiredArgsConstructor;
@@ -110,5 +111,13 @@ public class AttendanceServiceImpl implements AttendanceService {
         teacherAccessService.checkTeacherCanAccessEnrollment(attendance.getEnrollment());
         attendanceRepository.delete(attendance);
         return new ApiMessageResponse("Attendance deleted successfully with ID " + attendanceId);
+    }
+
+    @Override
+    public List<AttendanceResponse> getMyGAttendances() {
+        Student currentStudent = studentAccessService.getCurrentStudent();
+        List<Attendance> attendanceList =
+                attendanceRepository.findByEnrollmentStudentStudentId(currentStudent.getStudentId());
+        return attendanceList.stream().map(attendanceMapper::toResponse).toList();
     }
 }

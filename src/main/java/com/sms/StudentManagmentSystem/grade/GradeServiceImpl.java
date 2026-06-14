@@ -142,6 +142,14 @@ public class GradeServiceImpl implements GradeService {
         return new ApiMessageResponse("Grade successfully deleted with ID " + id);
     }
 
+    @Override
+    public List<GradeResponse> getMyGrades() {
+
+        Student currentStudent = studentAccessService.getCurrentStudent();
+        List<Grade> myGrades = gradeRepository.findByEnrollmentStudentStudentId(currentStudent.getStudentId());
+        return myGrades.stream().map(gradeMapper::toResponse).toList();
+    }
+
     private void validateScore(GradeType gradeType, Integer score) {
 
         if (score > gradeType.getMaxScore()) {
