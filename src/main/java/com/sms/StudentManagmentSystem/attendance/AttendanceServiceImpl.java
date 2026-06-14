@@ -6,6 +6,8 @@ import com.sms.StudentManagmentSystem.enrollment.EnrollmentStatus;
 import com.sms.StudentManagmentSystem.exception.BusinessException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
+import com.sms.StudentManagmentSystem.student.StudentAccessService;
+import com.sms.StudentManagmentSystem.teacher.TeacherAccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +15,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class AttendanceServiceImpl implements AttendanceService{
+public class AttendanceServiceImpl implements AttendanceService {
 
     private final AttendanceRepository attendanceRepository;
     private final EnrollmentRepository enrollmentRepository;
     private final AttendanceMapper attendanceMapper;
+    private final TeacherAccessService teacherAccessService;
+    private final StudentAccessService studentAccessService;
 
     @Override
     public AttendanceResponse createAttendance(AttendanceCreateRequest attendanceCreateRequest) {
@@ -32,7 +36,7 @@ public class AttendanceServiceImpl implements AttendanceService{
         }
 
         if (attendanceRepository.existsByEnrollmentEnrollmentIdAndLessonDate(attendanceCreateRequest.getEnrollmentId(),
-                attendanceCreateRequest.getLessonDate())){
+                attendanceCreateRequest.getLessonDate())) {
             throw new BusinessException("Attendance already exists for this lesson date");
 
         }
@@ -45,14 +49,25 @@ public class AttendanceServiceImpl implements AttendanceService{
     @Override
     public List<AttendanceResponse> attendanceByStudentId(Long studentId) {
 
-        List<Attendance> attendances=attendanceRepository.findByEnrollmentStudentStudentId(studentId);
+
+        List<Attendance> attendances = attendanceRepository.findByEnrollmentStudentStudentId(studentId);
+
+        attendances.forEach(attendance -> teacherAccessService.checkTeacherCanAccessEnrollment(attendance.getEnrollment()));
+        attendances.forEach(attendance -> studentAccessService.checkStudentCanAccessEnrollment(attendance.getEnrollment()));
+
+
         return attendances.stream().map(attendanceMapper::toResponse)
                 .toList();
     }
 
     @Override
     public List<AttendanceResponse> attendanceByEnrollmentId(Long enrollmentId) {
-        List<Attendance> attendances=attendanceRepository.findByEnrollmentEnrollmentId(enrollmentId);
+        List<Attendance> attendances = attendanceRepository.findByEnrollmentEnrollmentId(enrollmentId);
+
+        attendances.forEach(attendance -> teacherAccessService.checkTeacherCanAccessEnrollment(attendance.getEnrollment()));
+        attendances.forEach(attendance -> studentAccessService.checkStudentCanAccessEnrollment(attendance.getEnrollment()));
+
+
         return attendances.stream().map(attendanceMapper::toResponse)
                 .toList();
     }
@@ -65,6 +80,9 @@ public class AttendanceServiceImpl implements AttendanceService{
                 .orElseThrow(() -> new ResourceNotFoundException("Attendance not found with ID " + attendanceId));
 
         Enrollment enrollment = attendanceFromDb.getEnrollment();
+
+       teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
+
 
         if (attendanceRepository.existsByEnrollmentEnrollmentIdAndLessonDateAndAttendanceIdNot(
                 enrollment.getEnrollmentId(),
@@ -84,10 +102,10 @@ public class AttendanceServiceImpl implements AttendanceService{
     @Override
     public ApiMessageResponse deleteAttendance(Long attendanceId) {
 
-        Attendance attendance= attendanceRepository.findById(attendanceId)
+        Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Attendance not found with ID " + attendanceId));
 
         attendanceRepository.delete(attendance);
-        return new ApiMessageResponse("Attendance deleted successfully with ID "+attendanceId);
+        return new ApiMessageResponse("Attendance deleted successfully with ID " + attendanceId);
     }
 }

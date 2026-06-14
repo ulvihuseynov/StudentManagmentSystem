@@ -8,7 +8,9 @@ import com.sms.StudentManagmentSystem.exception.BusinessException;
 import com.sms.StudentManagmentSystem.exception.ResourceNotFoundException;
 import com.sms.StudentManagmentSystem.payload.ApiMessageResponse;
 import com.sms.StudentManagmentSystem.student.Student;
+import com.sms.StudentManagmentSystem.student.StudentAccessService;
 import com.sms.StudentManagmentSystem.student.StudentRepository;
+import com.sms.StudentManagmentSystem.teacher.TeacherAccessService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ public class GradeServiceImpl implements GradeService {
     private final EnrollmentRepository enrollmentRepository;
     private final StudentRepository studentRepository;
     private final GradeMapper gradeMapper;
+    private final TeacherAccessService teacherAccessService;
+    private final StudentAccessService studentAccessService;
 
     @Override
     public GradeResponse createGrade(GradeCreateRequest gradeCreateRequest) {
@@ -31,7 +35,7 @@ public class GradeServiceImpl implements GradeService {
                 .orElseThrow(() ->
                         new ResourceNotFoundException("Enrollment not found with ID: " + gradeCreateRequest.getEnrollmentId()));
 
-
+        teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
         validateScore(grade.getGradeType(), grade.getScore());
 
 
@@ -59,6 +63,8 @@ public class GradeServiceImpl implements GradeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Student not found with ID: " + studentId));
 
         List<Grade> grades = gradeRepository.findByEnrollmentStudentStudentId(studentId);
+        grades.forEach(grade -> teacherAccessService.checkTeacherCanAccessEnrollment(grade.getEnrollment()));
+        grades.forEach(grade -> studentAccessService.checkStudentCanAccessEnrollment(grade.getEnrollment()));
 
         return grades.stream().map(gradeMapper::toResponse).toList();
     }
@@ -68,6 +74,8 @@ public class GradeServiceImpl implements GradeService {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + enrollmentId));
 
+        teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
+        studentAccessService.checkStudentCanAccessEnrollment(enrollment);
         List<Grade> grades = gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
         return grades.stream().map(gradeMapper::toResponse).toList();
     }
@@ -79,6 +87,7 @@ public class GradeServiceImpl implements GradeService {
 
         Enrollment enrollment = gradeFromDb.getEnrollment();
 
+        teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
         validateScore(gradeFromDb.getGradeType(), gradeUpdateRequest.getScore());
 
         if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
@@ -95,9 +104,12 @@ public class GradeServiceImpl implements GradeService {
     @Override
     public GradeMaxScoreResponse getGradeByEnrollmentIdSummary(Long enrollmentId) {
 
-        enrollmentRepository.findById(enrollmentId)
+        Enrollment enrollment = enrollmentRepository.findById(enrollmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Enrollment not found with ID: " + enrollmentId));
 
+
+        teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
+        studentAccessService.checkStudentCanAccessEnrollment(enrollment);
 
         List<Grade> grades = gradeRepository.findByEnrollmentEnrollmentId(enrollmentId);
         int totalMaxScore = grades.stream().mapToInt(grade -> grade.getMaxScore()).sum();

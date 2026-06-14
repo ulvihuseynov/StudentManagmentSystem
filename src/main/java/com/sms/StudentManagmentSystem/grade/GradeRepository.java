@@ -13,4 +13,5 @@ public interface GradeRepository extends JpaRepository<Grade ,Long> {
     List<Grade> findByEnrollmentStudentStudentId(Long studentId);
 
     boolean existsByEnrollmentEnrollmentIdAndGradeType(Long enrollmentId, GradeType gradeType);
+
 }
