@@ -16,5 +16,5 @@ public interface AttendanceService {
 
     ApiMessageResponse deleteAttendance(Long attendanceId);
 
-    List<AttendanceResponse> getMyGAttendances();
+    List<AttendanceResponse> getMyAttendances();
 }

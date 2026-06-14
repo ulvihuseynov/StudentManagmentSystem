@@ -114,7 +114,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public List<AttendanceResponse> getMyGAttendances() {
+    public List<AttendanceResponse> getMyAttendances() {
         Student currentStudent = studentAccessService.getCurrentStudent();
         List<Attendance> attendanceList =
                 attendanceRepository.findByEnrollmentStudentStudentId(currentStudent.getStudentId());
