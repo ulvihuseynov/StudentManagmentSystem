@@ -82,6 +82,9 @@ public class AttendanceServiceImpl implements AttendanceService {
 
        teacherAccessService.checkTeacherCanAccessEnrollment(enrollment);
 
+        if (enrollment.getStatus() != EnrollmentStatus.ACTIVE) {
+            throw new BusinessException("Attendance can only be updated to active enrollment");
+        }
 
         if (attendanceRepository.existsByEnrollmentEnrollmentIdAndLessonDateAndAttendanceIdNot(
                 enrollment.getEnrollmentId(),

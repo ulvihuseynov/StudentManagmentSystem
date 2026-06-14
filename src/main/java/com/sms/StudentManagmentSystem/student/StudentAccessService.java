@@ -22,7 +22,7 @@ public class StudentAccessService {
         if (isAdmin()){
             return;
         }
-        Student currentStudent = getCurrentTeacher();
+        Student currentStudent = getCurrentStudent();
         Long currentStudentId = currentStudent.getStudentId();
         Long studentId = enrollment.getStudent().getStudentId();
         if (!currentStudentId.equals(studentId)) {
@@ -30,7 +30,7 @@ public class StudentAccessService {
         }
     }
 
-    private Student getCurrentTeacher() {
+    private Student getCurrentStudent() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         if (authentication == null || username == null) {
