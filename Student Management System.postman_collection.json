@@ -1,0 +1,1471 @@
+{
+  "info": {
+    "_postman_id": "680a0619-aeb2-4388-8136-371aa8a5c856",
+    "name": "Student Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45167972",
+    "_collection_link": "https://go.postman.co/collection/45167972-680a0619-aeb2-4388-8136-371aa8a5c856?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Student",
+      "item": [
+        {
+          "name": "Get All Student",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/students",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current Student Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYW1pbHNlcmlmIiwiaWF0IjoxNzgxMzc3MDY4LCJleHAiOjE3ODEzODU3MDh9.bstMEajhxkdfKg6Oz0JHdbs1PoqwwPT_oaIM867Oomo",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/students/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "students",
+                "me"
+              ],
+              "query": [
+                {
+                  "key": "",
+                  "value": null,
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Student By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1tZWRNYWhtdWQiLCJpYXQiOjE3ODE0MjQyMjcsImV4cCI6MTc4MTQzMjg2N30.H0vwHRSQFLYEyEODCgW7YylfKZDzfj7oMN-dZ4mtVv4",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/students/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "students",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Student Status Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/students/1/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "students",
+                "1",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete student",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwaWNvIiwiaWF0IjoxNzgxMTkyMTAzLCJleHAiOjE3ODExOTIxODl9.OOXqgjdUFEs13x18qdmpWP5TfbrNAGFqOlw6W52RDEE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/students/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "students",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQxOTU2MSwiZXhwIjoxNzgxNDI4MjAxfQ.Xr_vTSieeX-rgSf7lNyV0FDn0jorkF2laAGjw2RCIlw",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Ikram\",\r\n    \"lastname\": \"Kazimov\",\r\n    \"email\": \"ikram@gmail.com\",\r\n    \"phone\": \"0509573820\",\r\n    \"dateOfBirth\":\"2005-10-29\",\r\n    \"password\":\"ikram12\",\r\n    \"username\":\"ikramkazim\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/students",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwaWNvIiwiaWF0IjoxNzgxMTkyMzIwLCJleHAiOjE3ODExOTI0MDd9.Ct_aqJ5nrQy60CDUKRAO_fFjcB5G0TVVoDOrZmMN2iU",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Rasim\",\r\n    \"lastname\": \"Kazimov\",\r\n    \"email\": \"rasim@gmail.com\",\r\n    \"phone\": \"0506712783\",\r\n    \"dateOfBirth\":\"2004-12-31\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/students/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "students",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Teacher",
+      "item": [
+        {
+          "name": "Get All Teachers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxMzY2NDMzLCJleHAiOjE3ODEzNzUwNzN9.YIhxCV9CfFxL3QBBmYEPO5WZSd9uJF05iriwf_uHE5w",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/teachers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teachers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Current Teacher Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmYW1pbHNlcmlmIiwiaWF0IjoxNzgxNDIyOTAyLCJleHAiOjE3ODE0MzE1NDJ9.9ooJYFvsSTINeR7rN_31FLa2lIhC17Tg_Y6nANSJqhU",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/teachers/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teachers",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Teacher By Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxNDE5OTU1LCJleHAiOjE3ODE0Mjg1OTV9.ds981kupdPm8Sfia8Ojj6IR647gJvUW7D5dM_GfRpxE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/teachers/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teachers",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Teacher Status Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/teachers/1/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teachers",
+                "1",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete teacher",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/teachers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teachers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create teacher",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyNDM3MywiZXhwIjoxNzgxNDMzMDEzfQ.CypgjHhMd5m-_VSsKjaVmMy3TaYFXYAR9iBlEHhv2_k",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Ruslan\",\r\n    \"lastname\": \"Aliyev\",\r\n    \"email\": \"ruslan@gmail.com\",\r\n    \"phone\": \"0554874720\",\r\n    \"specialization\":\"Kimya\",\r\n    \"password\":\"ruslan1234\",\r\n    \"username\":\"ruslan teacher\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/teachers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teachers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Teacher",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZWFjaGVyIiwiaWF0IjoxNzgxMjY0MDI0LCJleHAiOjE3ODEyNzI2NjR9.4DdJ3_cmilNL-Ks7IWecGcI3T23lmSDMNQg03umRQr0",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"firstname\": \"Vahid\",\r\n    \"lastname\": \"Huseynov\",\r\n    \"email\": \"vahid@gmail.com\",\r\n    \"phone\": \"0552718902\",\r\n    \"specialization\": \"Tarix\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/teachers/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "teachers",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Course",
+      "item": [
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyMzgyMSwiZXhwIjoxNzgxNDMyNDYxfQ.ZjoTDVh_NB7wazYx8a84XGKXkRGGIEJo4gPWadqbkYo",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/courses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "courses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Course By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/courses/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "courses",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Course Status Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"ARCHIVED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/courses/1/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "courses",
+                "1",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/courses/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "courses",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyNDM3MywiZXhwIjoxNzgxNDMzMDEzfQ.CypgjHhMd5m-_VSsKjaVmMy3TaYFXYAR9iBlEHhv2_k",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"MyCourse\",\r\n    \"description\": \"MyCourse-da tehsil al\",\r\n    \"durationInMonths\": 5,\r\n    \"price\":300,\r\n    \"level\":\"BEGINNER\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/courses",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "courses"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Course",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Ingilis dili\",\r\n    \"description\": \"Ingilis dilini en yaxsi bilen siz olun\",\r\n    \"durationInMonths\": 8,\r\n    \"price\":350,\r\n    \"level\":\"BEGINNER\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/courses/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "courses",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Group",
+      "item": [
+        {
+          "name": "Get All Groups",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJLYW1pbCIsImlhdCI6MTc4MTI2NDE3MiwiZXhwIjoxNzgxMjcyODEyfQ.YVAVj7BKsgrKdSkBER17EqN0sD1LJdLUNBHBte0IkaY",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/groups",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "groups"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Group By Id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/groups/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "groups",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Group Status Update",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyNDM3MywiZXhwIjoxNzgxNDMzMDEzfQ.CypgjHhMd5m-_VSsKjaVmMy3TaYFXYAR9iBlEHhv2_k",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"ACTIVE\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/groups/2/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "groups",
+                "2",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Group",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyMzgyMSwiZXhwIjoxNzgxNDMyNDYxfQ.ZjoTDVh_NB7wazYx8a84XGKXkRGGIEJo4gPWadqbkYo",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Group D\",\r\n    \"capacity\":10,\r\n    \"courseId\":2,\r\n    \"teacherId\":2,\r\n     \"startDate\":\"2026-05-10\",\r\n    \"endDate\":\"2026-09-19\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/groups",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "groups"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Group",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Group 813\",\r\n    \"capacity\":12,\r\n     \"courseId\":1,\r\n    \"teacherId\":2,\r\n     \"startDate\":\"2026-02-10\",\r\n    \"endDate\":\"2026-06-30\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/groups/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "groups",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Enrollment",
+      "item": [
+        {
+          "name": "Get All Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJwaWNvIiwiaWF0IjoxNzgxMTkxODYzLCJleHAiOjE3ODExOTE5NDl9.Mpe7KY1IerbojY0z_5P3yNL2nUR8mZj81EV2wxuw-cE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/enrollments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "enrollments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Enrollment By Student",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxNDE5OTU1LCJleHAiOjE3ODE0Mjg1OTV9.ds981kupdPm8Sfia8Ojj6IR647gJvUW7D5dM_GfRpxE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/enrollments/student/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "enrollments",
+                "student",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Enrollment By Group",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/enrollments/group/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "enrollments",
+                "group",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Enrollment Status Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"status\":\"PLANNED\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/enrollments/1/status",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "enrollments",
+                "1",
+                "status"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Enrollment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyNDM3MywiZXhwIjoxNzgxNDMzMDEzfQ.CypgjHhMd5m-_VSsKjaVmMy3TaYFXYAR9iBlEHhv2_k",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"enrollment_date\":\"2026-06-04\",\r\n   \"studentId\":2,\r\n   \"groupId\":2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/enrollments",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "enrollments"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Enrollment",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/enrollments/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "enrollments",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    // \"username\": \"admin\",\r\n    // \"email\": \"admin@gmail.com\",\r\n    // \"password\": \"admin123\"\r\n    // \"username\": \"teacher\",\r\n    // \"email\": \"teacher@gmail.com\",\r\n    // \"password\": \"teacher123\"\r\n    \"email\": \"habil@gmail.com\",\r\n    \"password\":\"habil1234\",\r\n    \"username\":\"habil teacher\"\r\n    // \"email\": \"famil@gmail.com\",\r\n    // \"password\": \"famil789\",\r\n    // \"username\": \"familserif\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Current user",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyMzgyMSwiZXhwIjoxNzgxNDMyNDYxfQ.ZjoTDVh_NB7wazYx8a84XGKXkRGGIEJo4gPWadqbkYo",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/auth/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register request",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Grade",
+      "item": [
+        {
+          "name": "Create Grade",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyMzgyMSwiZXhwIjoxNzgxNDMyNDYxfQ.ZjoTDVh_NB7wazYx8a84XGKXkRGGIEJo4gPWadqbkYo",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"Grade F\",\r\n    \"description\":\"You are best\",\r\n    \"score\":20,\r\n    \"gradeType\":\"FINAL_EXAM\",\r\n    \"enrollmentId\":1,\r\n    \"gradeDate\":\"2026-06-12\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/grades",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "grades"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get  Grade By Student Id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxNDE5OTU1LCJleHAiOjE3ODE0Mjg1OTV9.ds981kupdPm8Sfia8Ojj6IR647gJvUW7D5dM_GfRpxE",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"Grade C\",\r\n    \"description\":\"You are best\",\r\n    \"score\":8,\r\n    \"maxScore\":79,\r\n    \"gradeType\":\"FINAL_EXAM\",\r\n    \"enrollmentId\":2,\r\n    \"gradeDate\":\"2026-06-12\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/grades/student/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "grades",
+                "student",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get My  Grades",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1tZWRNYWhtdWQiLCJpYXQiOjE3ODE0MjQyMjcsImV4cCI6MTc4MTQzMjg2N30.H0vwHRSQFLYEyEODCgW7YylfKZDzfj7oMN-dZ4mtVv4",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/grades/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "grades",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Grade",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTMzMTkyNSwiZXhwIjoxNzgxMzQwNTY1fQ.62vwm3A3YcfYv-a25gQXP5w2h-Ft_5Q18K3quW4GHLU",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"Grade C\",\r\n    \"description\":\"You are best\",\r\n    \"score\":8,\r\n    \"maxScore\":79,\r\n    \"gradeType\":\"FINAL_EXAM\",\r\n    \"enrollmentId\":2,\r\n    \"gradeDate\":\"2026-06-12\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/grades/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "grades",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get  Grade By Enrollment Id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxNDE5OTU1LCJleHAiOjE3ODE0Mjg1OTV9.ds981kupdPm8Sfia8Ojj6IR647gJvUW7D5dM_GfRpxE",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"Grade C\",\r\n    \"description\":\"You are best\",\r\n    \"score\":8,\r\n    \"maxScore\":79,\r\n    \"gradeType\":\"FINAL_EXAM\",\r\n    \"enrollmentId\":2,\r\n    \"gradeDate\":\"2026-06-12\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/grades/enrollment/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "grades",
+                "enrollment",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get  Grade By Enrollment Id Summary",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTMzMTkyNSwiZXhwIjoxNzgxMzQwNTY1fQ.62vwm3A3YcfYv-a25gQXP5w2h-Ft_5Q18K3quW4GHLU",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/grades/enrollment/1/summary",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "grades",
+                "enrollment",
+                "1",
+                "summary"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update  Grade",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxNDE5OTU1LCJleHAiOjE3ODE0Mjg1OTV9.ds981kupdPm8Sfia8Ojj6IR647gJvUW7D5dM_GfRpxE",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\":\"Grade D\",\r\n    \"description\":\"You are best!!!\",\r\n    \"score\":29,\r\n    \"gradeDate\":\"2026-06-10\"\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/grades/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "grades",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Create Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTQyMzgyMSwiZXhwIjoxNzgxNDMyNDYxfQ.ZjoTDVh_NB7wazYx8a84XGKXkRGGIEJo4gPWadqbkYo",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \r\n     \"lessonDate\": \"2025-06-10\",\r\n    \"note\": \"Note is required\",\r\n    \"status\": \"PRESENT\",\r\n    \"enrollmentId\":1\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/attendance",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "attendance"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get  Attendance By Student Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxNDE5OTU1LCJleHAiOjE3ODE0Mjg1OTV9.ds981kupdPm8Sfia8Ojj6IR647gJvUW7D5dM_GfRpxE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/attendance/student/4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "attendance",
+                "student",
+                "4"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get  My Attendances",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1tZWRNYWhtdWQiLCJpYXQiOjE3ODE0MjQyMjcsImV4cCI6MTc4MTQzMjg2N30.H0vwHRSQFLYEyEODCgW7YylfKZDzfj7oMN-dZ4mtVv4",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/attendance/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "attendance",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get  Attendance By Student Id Copy",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTM1MzI5NywiZXhwIjoxNzgxMzYxOTM3fQ.y-Z1Mm9mJyKDBTA_OKf03TNFMTapk0JNq-rlrJZDt2g",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/attendance/student/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "attendance",
+                "student",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Attendance",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTI3MDcxMiwiZXhwIjoxNzgxMjc5MzUyfQ.cfcssl5D8VIodAPyr69efaFySYS2IXRzbjpx10Q3vWE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/attendance/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "attendance",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get  Attendance By Enrollment Id",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoYWJpbCB0ZWFjaGVyIiwiaWF0IjoxNzgxNDE5OTU1LCJleHAiOjE3ODE0Mjg1OTV9.ds981kupdPm8Sfia8Ojj6IR647gJvUW7D5dM_GfRpxE",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/attendance/enrollment/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "attendance",
+                "enrollment",
+                "3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Attendance",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTc4MTM1MzI5NywiZXhwIjoxNzgxMzYxOTM3fQ.y-Z1Mm9mJyKDBTA_OKf03TNFMTapk0JNq-rlrJZDt2g",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n   \"lessonDate\":\"2026-06-11\",\r\n   \"note\":\"Ders yaxsi kecdi\",\r\n   \"status\":\"PRESENT\"\r\n\r\n\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/attendance/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "attendance",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
